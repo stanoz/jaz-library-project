@@ -2,9 +2,12 @@ package com.library.library_client;
 
 import com.library.library_client.contract.ResultsDto;
 import lombok.Data;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Collections;
 
 
 @Component
@@ -15,7 +18,8 @@ public class BooksClient implements IBooksClient{
     private final IBooksClientSettings _settings;
 
     public BooksClient(IBooksClientSettings settings) {
-        restTemplate =new RestTemplate();
+        restTemplate = new RestTemplate();
+        restTemplate.setMessageConverters(Collections.singletonList(new MappingJackson2HttpMessageConverter()));
         this.baseUrl = settings.getBaseUrl();
         _settings = settings;
     }
