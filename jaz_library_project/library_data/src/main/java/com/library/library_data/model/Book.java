@@ -1,11 +1,16 @@
 package com.library.library_data.model;
 
 import lombok.Data;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @Data
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private long sourceId;
@@ -14,13 +19,18 @@ public class Book {
 
     private int downloadCount;
 
-    private List<Author> authors;
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
+    private List<Author> authors = new ArrayList<>();
 
-    private List<BookImage> images;
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private List<BookImage> images = new ArrayList<>();
 
-    private List<Language> languages;
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
+    private List<Language> languages = new ArrayList<>();
 
-    private List<Subject> subjects;
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
+    private List<Subject> subjects = new ArrayList<>();
 
-    private List<Bookshelves> bookshelves;
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
+    private List<Bookshelves> bookshelves = new ArrayList<>();
 }

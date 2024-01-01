@@ -5,13 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BooksClientSettings implements IBooksClientSettings{
-    @Value("gutenberg.api.host")
+    @Value("utendex.com")
     private String baseUrl;
 
-    public BooksClientSettings(
-            @Value("gutenberg.api.host") String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
 
     @Override
     public String getBaseUrl() {

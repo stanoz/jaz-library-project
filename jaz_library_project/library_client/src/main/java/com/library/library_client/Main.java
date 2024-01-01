@@ -7,7 +7,7 @@ public class Main {
         test();
     }
     private static void test(){
-        IBooksClientSettings booksClientSettings = new BooksClientSettings("gutendex.com");
+        IBooksClientSettings booksClientSettings = new BooksClientSettings();
         IBooksClient booksClient = new BooksClient(booksClientSettings);
         ResultsDto resultsDto = booksClient.getBooks();
     }
