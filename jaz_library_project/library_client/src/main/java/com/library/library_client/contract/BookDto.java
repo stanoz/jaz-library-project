@@ -26,7 +26,7 @@ public class BookDto {
     private List<String> languages;
 
     @JsonProperty("formats")
-    private BookImageDto bookImage;
+    private List<BookImageDto> bookImage;
 
     @JsonProperty("download_count")
     private int downloadCount;
