@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="library_client" />
         <module name="library_updater" />
+        <module name="library_web_api" />
         <module name="library_data" />
         <module name="tools" />
       </profile>
@@ -19,6 +20,7 @@
       <module name="library_client" options="-parameters" />
       <module name="library_data" options="-parameters" />
       <module name="library_updater" options="-parameters" />
+      <module name="library_web_api" options="-parameters" />
       <module name="tools" options="-parameters" />
     </option>
   </component>

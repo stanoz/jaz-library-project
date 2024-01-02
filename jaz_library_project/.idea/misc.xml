@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/library_client/pom.xml" />
         <option value="$PROJECT_DIR$/library_data/pom.xml" />
         <option value="$PROJECT_DIR$/library_updater/pom.xml" />
+        <option value="$PROJECT_DIR$/library_web_api/pom.xml" />
       </list>
     </option>
   </component>
