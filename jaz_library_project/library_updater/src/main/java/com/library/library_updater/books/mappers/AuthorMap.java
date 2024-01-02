@@ -1,4 +1,4 @@
-package com.library.library_updater.mappers;
+package com.library.library_updater.books.mappers;
 
 import com.library.library_client.contract.AuthorDto;
 import com.library.library_data.model.Author;

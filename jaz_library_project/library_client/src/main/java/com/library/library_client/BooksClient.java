@@ -26,7 +26,7 @@ public class BooksClient implements IBooksClient{
 
     @Override
     public ResultsDto getBooks() {
-        return getBooks(1);
+        return getBooks(2);
     }
 
     @Override

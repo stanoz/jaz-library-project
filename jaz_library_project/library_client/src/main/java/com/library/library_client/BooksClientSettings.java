@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BooksClientSettings implements IBooksClientSettings{
-    @Value("utendex.com")
-    private String baseUrl;
+    @Value("gutendex.com")
+    private String baseUrl = "gutendex.com";
 
 
     @Override

@@ -10,5 +10,6 @@ public class Main {
         IBooksClientSettings booksClientSettings = new BooksClientSettings();
         IBooksClient booksClient = new BooksClient(booksClientSettings);
         ResultsDto resultsDto = booksClient.getBooks();
+        System.out.println("hi");
     }
 }

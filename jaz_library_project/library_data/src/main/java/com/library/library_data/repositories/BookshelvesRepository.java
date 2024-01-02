@@ -5,4 +5,5 @@ import com.library.library_data.model.Language;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookshelvesRepository extends JpaRepository<Bookshelves, Long> {
+    Bookshelves findByName(String name);
 }

@@ -1,4 +1,4 @@
-package com.library.library_updater.mappers;
+package com.library.library_updater.books.mappers;
 
 import com.library.library_data.model.Subject;
 import org.springframework.stereotype.Component;

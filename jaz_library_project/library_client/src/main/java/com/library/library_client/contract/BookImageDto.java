@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class BookImageDto {
-    @JsonProperty("image/jpeg")
-    private String imageUrl;
+//    @JsonProperty("image/jpeg")
+//    private String imageUrl;
 }

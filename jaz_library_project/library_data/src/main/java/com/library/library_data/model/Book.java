@@ -22,8 +22,8 @@ public class Book {
     @ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
     private List<Author> authors = new ArrayList<>();
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
-    private List<BookImage> images = new ArrayList<>();
+//    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+//    private List<BookImage> images = new ArrayList<>();
 
     @ManyToMany(mappedBy = "books", cascade = CascadeType.ALL)
     private List<Language> languages = new ArrayList<>();
