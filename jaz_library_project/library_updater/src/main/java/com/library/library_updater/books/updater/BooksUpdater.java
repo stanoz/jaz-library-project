@@ -31,6 +31,14 @@ public class BooksUpdater implements IUpdateBooks{
         }
     }
 
+    @Override
+    public void updateByPagesRange(int pageFrom, int pageTo) {
+        for (int i = pageFrom; i <= pageTo; i++) {
+            int page = i;
+            invoker.SafeInvoke(() -> booksClient.getBooks(page).getResults().forEach(this::saveBookToDb));
+        }
+    }
+
     @Transactional
     public void saveBookToDb(BookDto bookDto) {
         Book bookEntity = mapper.book().mapToEntity(bookDto);
