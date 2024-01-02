@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EditBook</title>
+</head>
+<body>
+<span>Edit Person</span><br>
+<form th:object="${book}" method="post" th:action="@{'edit-book' + ${id}}">
+    <span>Book details</span><br>
+    <label>
+        <span th:text="'ID: ' + ${book.id}"></span>
+    </label><br>
+    <label>
+        Title: <input th:field="*{title}">
+    </label><br>
+    <label>
+        Download count: <input th:field="*{downloadCount}">
+    </label><br>
+<!--    <span>Authors:</span><ul th:each="author, data : ${book.getAuthors()}">-->
+<!--    <li><label>-->
+<!--        Name: <input th:field="*{authors[__${data}__].name}">-->
+<!--    </label></li>-->
+<!--    <li><label>-->
+<!--        Year of birth: <input th:field="*{authors[__${data}__].yearOfBirth}">-->
+<!--    </label></li>-->
+<!--    <li><label>-->
+<!--        Year of death<input th:field="*{authors[__${data}__].yearOfDeath}">-->
+<!--    </label></li>-->
+<!--</ul><br>-->
+<!--    <span>Subjects:</span><ul th:each="subject:${book.getSubjects()}">-->
+<!--    <li><label>-->
+<!--        <input th:field="${subject}">-->
+<!--    </label></li>-->
+<!--</ul><br>-->
+<!--    <span>Languages:</span><ul th:each="language:${book.getLanguages()}">-->
+<!--    <li><label>-->
+<!--        <input th:filed="${language}">-->
+<!--    </label></li>-->
+<!--</ul><br>-->
+<!--    <span>Bookshelves:</span><ul th:each="bookshelve:${book.getBookshelves()}">-->
+<!--    <li><label>-->
+<!--        <input th:field="${bookshelve}">-->
+<!--    </label></li>-->
+<!--</ul><br>-->
+    <button type="submit">Edit</button>
+</form>
+</body>
+</html>

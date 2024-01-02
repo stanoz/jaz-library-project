@@ -22,7 +22,7 @@
     <td th:text="${book.id}"></td>
     <td th:text="${book.title}"></td>
     <td th:text="${book.downloadCount}"></td>
-<!--    <td><a th:id="'edit-link-'+${book.id}" th:href="@{'/editBook/'+${book.id}}">Edit</a></td>-->
+    <td><a th:id="'edit-link-'+${book.id}" th:href="@{'/api/books/edit-book/'+${book.id}}">Edit</a></td>
 <!--    <td><a th:id="'delete-link-'+${book.id}" th:href="@{'/deleteBook/'+${book.id}}">Delete</a></td>-->
     <td><a th:id="'details-link-'+${book.id}" th:href="@{'/api/books/book-details/'+${book.id}}">Details</a></td>
 </tr>

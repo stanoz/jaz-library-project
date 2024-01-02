@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 
@@ -25,10 +26,21 @@ public class BookController {
         model.addAttribute("books", books);
         return "books-list";
     }
-    @GetMapping("book-details/{id}")
+    @GetMapping("/book-details/{id}")
     public String getBookDetails(Model model,@PathVariable("id") Long id){
         BookDto book = bookService.getBookDetails(id);
         model.addAttribute("book", book);
         return "book-details";
+    }
+    @GetMapping("/edit-book/{id}")
+    public String editBook(Model model,@PathVariable("id") Long id){
+        BookDto book = bookService.getBookDetails(id);
+        model.addAttribute("book", book);
+        return "edit-book";
+    }
+    @PostMapping("/edit-book/{id}")
+    public String editBook(BookDto book, Model model,@PathVariable("id") Long id){
+        invoker.SafeInvoke(() -> bookService.editBook(book));
+        return "redirect:/api/books/show-all";
     }
 }

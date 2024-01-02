@@ -8,4 +8,5 @@ import java.util.List;
 public interface IBookService {
     List<BookDto> getAllBooks();
     BookDto getBookDetails(Long id);
+    void editBook(BookDto book);
 }
