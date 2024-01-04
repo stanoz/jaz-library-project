@@ -40,7 +40,7 @@ public class BookController {
     }
     @PostMapping("/edit-book/{id}")
     public String editBook(BookDto book, Model model,@PathVariable("id") Long id){
-        invoker.SafeInvoke(() -> bookService.editBook(book));
+        invoker.SafeInvoke(() -> bookService.editBook(book, id));
         return "redirect:/api/books/show-all";
     }
 }

@@ -5,9 +5,8 @@
     <title>EditBook</title>
 </head>
 <body>
-<span>Edit Person</span><br>
-<form th:object="${book}" method="post" th:action="@{'edit-book' + ${id}}">
-    <span>Book details</span><br>
+<span>Edit Book</span><br>
+<form action="#" th:object="${book}" method="post" th:action="@{'/api/books/edit-book/' + ${id}}">
     <label>
         <span th:text="'ID: ' + ${book.id}"></span>
     </label><br>
@@ -17,17 +16,20 @@
     <label>
         Download count: <input th:field="*{downloadCount}">
     </label><br>
-<!--    <span>Authors:</span><ul th:each="author, data : ${book.getAuthors()}">-->
-<!--    <li><label>-->
-<!--        Name: <input th:field="*{authors[__${data}__].name}">-->
-<!--    </label></li>-->
-<!--    <li><label>-->
-<!--        Year of birth: <input th:field="*{authors[__${data}__].yearOfBirth}">-->
-<!--    </label></li>-->
-<!--    <li><label>-->
-<!--        Year of death<input th:field="*{authors[__${data}__].yearOfDeath}">-->
-<!--    </label></li>-->
-<!--</ul><br>-->
+    <button type="submit">Edit</button>
+</form>
+    <span>Authors:</span>
+<table>
+    <tbody>
+    <tr th:each="author:${book.getAuthors()}">
+    <td th:text="${author.name} + ', ' + ${author.yearOfBirth} + ' - ' + ${author.yearOfDeath}"></td>
+        <td><a th:id="'edit-link-'+${author.name}" th:href="@{'/api/books/edit-author/'+${author.name}}">Edit</a></td>
+        <td><a th:id="'delete-link-'+${author.name}" th:href="@{'/api/books/delete-author/'+${author.name}}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+<span>Add new author</span>
+<br>
 <!--    <span>Subjects:</span><ul th:each="subject:${book.getSubjects()}">-->
 <!--    <li><label>-->
 <!--        <input th:field="${subject}">-->
@@ -43,7 +45,6 @@
 <!--        <input th:field="${bookshelve}">-->
 <!--    </label></li>-->
 <!--</ul><br>-->
-    <button type="submit">Edit</button>
-</form>
+
 </body>
 </html>

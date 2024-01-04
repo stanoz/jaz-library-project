@@ -8,6 +8,7 @@ import com.library.library_updater.books.mappers.IMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,8 @@ public class BookService implements IBookService{
 
     @Override
     public List<BookDto> getAllBooks() {
-        return db.getBooks().findAll().stream().map(BookService::getBookDto).collect(Collectors.toList());
+        return db.getBooks().findAll().stream().map(BookService::getBookDto).toList().stream()
+                .sorted(Comparator.comparingLong(BookDto::getId)).collect(Collectors.toList());
     }
 
     @Override
@@ -29,58 +31,16 @@ public class BookService implements IBookService{
     }
 
     @Override
-    public void editBook(BookDto bookDto) {
-        Book bookEntity = mapper.book().mapToEntity(bookDto);
+    public void editBook(BookDto bookDto, Long id) {
+//        Book bookEntity = mapper.book().mapToEntity(bookDto);
+//
+//        db.getBooks().save(bookEntity);
 
-        bookDto.getAuthors().forEach(authorDto -> {
-            Author authorEntity = db.getAuthors().findByName(authorDto.getName());
-            if (authorEntity != null) {
-                authorEntity.getBooks().add(bookEntity);
-            }else {
-                authorEntity = mapper.author().mapToEntity(authorDto);
-                authorEntity.getBooks().add(bookEntity);
-                db.getAuthors().save(authorEntity);
-            }
-            bookEntity.getAuthors().add(authorEntity);
+        db.getBooks().findById(id).ifPresent(book -> {
+            book.setTitle(bookDto.getTitle());
+            book.setDownloadCount(bookDto.getDownloadCount());
+            db.getBooks().save(book);
         });
-
-        bookDto.getLanguages().forEach(language -> {
-            Language languageEntity = db.getLanguages().findByName(language);
-            if (languageEntity != null) {
-                languageEntity.getBooks().add(bookEntity);
-            } else {
-                languageEntity = mapper.language().mapToEntity(language);
-                languageEntity.getBooks().add(bookEntity);
-                db.getLanguages().save(languageEntity);
-            }
-            bookEntity.getLanguages().add(languageEntity);
-        });
-
-        bookDto.getSubjects().forEach(subject -> {
-            Subject subjectEntity = db.getSubjects().findByName(subject);
-            if (subjectEntity != null) {
-                subjectEntity.getBooks().add(bookEntity);
-            } else {
-                subjectEntity = mapper.subject().mapToEntity(subject);
-                subjectEntity.getBooks().add(bookEntity);
-                db.getSubjects().save(subjectEntity);
-            }
-            bookEntity.getSubjects().add(subjectEntity);
-        });
-
-        bookDto.getBookshelves().forEach(bookshelves -> {
-            Bookshelves bookshelvesEntity = db.getBookshelves().findByName(bookshelves);
-            if (bookshelvesEntity != null) {
-                bookshelvesEntity.getBooks().add(bookEntity);
-            } else {
-                bookshelvesEntity = mapper.bookshelves().mapToEntity(bookshelves);
-                bookshelvesEntity.getBooks().add(bookEntity);
-                db.getBookshelves().save(bookshelvesEntity);
-            }
-            bookEntity.getBookshelves().add(bookshelvesEntity);
-        });
-
-        db.getBooks().save(bookEntity);
     }
 
     private static BookDto getBookDto(Book book) {
@@ -97,6 +57,7 @@ public class BookService implements IBookService{
         bookDto.setLanguages(book.getLanguages().stream().map(Language::getName).collect(Collectors.toList()));
         bookDto.setSubjects(book.getSubjects().stream().map(Subject::getName).collect(Collectors.toList()));
         bookDto.setTitle(book.getTitle());
+        bookDto.setDownloadCount(book.getDownloadCount());
         return bookDto;
     }
 }
