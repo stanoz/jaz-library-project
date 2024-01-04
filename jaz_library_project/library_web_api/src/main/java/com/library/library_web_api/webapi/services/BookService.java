@@ -5,6 +5,7 @@ import com.library.library_client.contract.BookDto;
 import com.library.library_data.model.*;
 import com.library.library_data.repositories.ICatalogData;
 import com.library.library_updater.books.mappers.IMapper;
+import com.library.library_web_api.webapi.contract.SubjectDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -100,6 +101,38 @@ public class BookService implements IBookService{
             db.getAuthors().save(author);
             book.getAuthors().add(author);
             db.getBooks().save(book);
+        });
+    }
+
+    @Override
+    public Long getSubjectId(String name, Long bookId) {
+        return db.getBooks().findById(bookId)
+                .map(book -> Objects.requireNonNull(book.getSubjects().stream()
+                        .filter(subject -> subject.getName().equals(name))
+                        .findFirst().orElse(null)).getId()).orElse(null);
+    }
+
+    @Override
+    public void editSubject(SubjectDto subjectDto, Long bookId) {
+        db.getBooks().findById(bookId).ifPresent(book -> {
+            Subject subject = book.getSubjects().stream().filter(s -> s.getId()==subjectDto.getId()).findFirst().orElse(null);
+            if (subject != null) {
+                subject.setName(subjectDto.getName());
+                db.getSubjects().save(subject);
+            }
+        });
+    }
+
+    @Override
+    public void deleteSubject(Long bookId, Long subjectId) {
+        db.getBooks().findById(bookId).ifPresent(book -> {
+            Subject subject = book.getSubjects().stream().filter(s -> s.getId()==subjectId).findFirst().orElse(null);
+            if (subject != null) {
+                book.getSubjects().remove(subject);
+                subject.getBooks().remove(book);
+                db.getSubjects().save(subject);
+                db.getBooks().save(book);
+            }
         });
     }
 }

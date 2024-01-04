@@ -28,13 +28,18 @@
     </tr>
     </tbody>
 </table>
-<a th:href="@{'/api/books/add-author/' + ${book.id}}">Add new author</a>
+<a th:href="@{'/api/books/add-author/' + ${book.id}}">Add author</a>
 <br>
-<!--    <span>Subjects:</span><ul th:each="subject:${book.getSubjects()}">-->
-<!--    <li><label>-->
-<!--        <input th:field="${subject}">-->
-<!--    </label></li>-->
-<!--</ul><br>-->
+<table>
+    <tbody>
+    <tr th:each="subject:${book.getSubjects()}">
+        <td th:text="${subject}"></td>
+        <td><a th:id="'edit-link'+${subject}" th:href="@{'/api/books/edit-subject/'+ ${subject} + '/' + ${book.id}}">Edit</a></td>
+        <td><a th:id="'delete-link'+${subject}" th:href="@{'/api/books/delete-subject/'+ ${subject} + '/' + ${book.id}}">Delete</a></td>
+    </tbody>
+</table>
+<a th:href="@{'/api/books/add-subject/' + ${book.id}}">Add subject</a>
+<br>
 <!--    <span>Languages:</span><ul th:each="language:${book.getLanguages()}">-->
 <!--    <li><label>-->
 <!--        <input th:filed="${language}">-->
@@ -45,6 +50,6 @@
 <!--        <input th:field="${bookshelve}">-->
 <!--    </label></li>-->
 <!--</ul><br>-->
-
+<a th:href="@{/api/books/show-all}">Return to the main page.</a>
 </body>
 </html>
