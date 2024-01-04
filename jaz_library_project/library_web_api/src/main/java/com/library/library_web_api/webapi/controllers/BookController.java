@@ -3,6 +3,7 @@ package com.library.library_web_api.webapi.controllers;
 import com.library.library_client.contract.AuthorDto;
 import com.library.library_client.contract.BookDto;
 import com.library.library_data.model.Author;
+import com.library.library_web_api.webapi.contract.LanguageDto;
 import com.library.library_web_api.webapi.contract.SubjectDto;
 import com.library.library_web_api.webapi.services.IBookService;
 import com.library.tools.safeinvoker.SafeInvoking;
@@ -129,6 +130,50 @@ public class BookController {
     @PostMapping("/add-subject/{bookId}")
     public String addSubject(SubjectDto subjectDto, Model model, @PathVariable("bookId") Long bookId){
         invoker.SafeInvoke(() -> bookService.addSubject(subjectDto, bookId));
+        return "redirect:/api/books/book-details/" + bookId;
+    }
+    @GetMapping("/edit-language/{name}/{id}")
+    public String editLanguage(Model model,@PathVariable("name") String name,@PathVariable("id") Long bookId){
+        LanguageDto languageDto = new LanguageDto();
+        Long languageId = bookService.getLanguageId(name, bookId);
+        languageDto.setId(languageId);
+        languageDto.setName(name);
+        model.addAttribute("bookId", bookId);
+        model.addAttribute("languageDto", languageDto);
+        return "edit-language";
+    }
+    @PostMapping("/edit-language/{bookId}/{languageId}")
+    public String editLanguage(LanguageDto languageDto,Model model,@PathVariable("bookId") Long bookId,
+                              @PathVariable("languageId") Long languageId){
+        languageDto.setId(languageId);
+        invoker.SafeInvoke(() -> bookService.editLanguage(languageDto, bookId));
+        return "redirect:/api/books/book-details/" + bookId;
+    }
+    @GetMapping("/delete-language/{name}/{id}")
+    public String deleteLanguage(Model model,@PathVariable("name") String name,@PathVariable("id") Long bookId) {
+        LanguageDto languageDto = new LanguageDto();
+        Long languageId = bookService.getLanguageId(name, bookId);
+        languageDto.setId(languageId);
+        languageDto.setName(name);
+        model.addAttribute("bookId", bookId);
+        model.addAttribute("languageDto", languageDto);
+        return "delete-language";
+    }
+    @PostMapping("/delete-language/{bookId}/{languageId}")
+    public String deleteLanguage(Model model,@PathVariable("bookId") Long bookId, @PathVariable("languageId") Long languageId){
+        invoker.SafeInvoke(() -> bookService.deleteLanguage(bookId, languageId));
+        return "redirect:/api/books/book-details/" + bookId;
+    }
+    @GetMapping("/add-language/{id}")
+    public String addLanguage(Model model,@PathVariable("id") Long bookId){
+        LanguageDto languageDto = new LanguageDto();
+        model.addAttribute("bookId", bookId);
+        model.addAttribute("languageDto", languageDto);
+        return "add-language";
+    }
+    @PostMapping("/add-language/{bookId}")
+    public String addLanguage(LanguageDto languageDto, Model model, @PathVariable("bookId") Long bookId){
+        invoker.SafeInvoke(() -> bookService.addLanguage(languageDto, bookId));
         return "redirect:/api/books/book-details/" + bookId;
     }
 }

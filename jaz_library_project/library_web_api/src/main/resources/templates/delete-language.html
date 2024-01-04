@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DeleteLanguage</title>
+</head>
+<body>
+<span>Delete Language</span><br>
+<span>Confirm</span>
+<span th:text="'Name:' + ${languageDto.name}"></span><br>
+<form action="#" th:object="${languageDto}" method="post" th:action="@{'/api/books/delete-language/' + ${bookId} + '/' + ${languageDto.id}}">
+    <button type="submit">Delete</button>
+</form>
+</body>
+</html>

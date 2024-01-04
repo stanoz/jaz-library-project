@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AddLanguage</title>
+</head>
+<body>
+<span>Add Language</span><br>
+<form action="#" th:object="${languageDto}" method="post" th:action="@{'/api/books/add-language' + '/' + ${bookId}}">
+    <label>
+        Name: <input th:field="*{name}">
+    </label><br>
+    <button type="submit">Add</button>
+</form>
+</body>
+</html>

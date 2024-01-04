@@ -5,6 +5,7 @@ import com.library.library_client.contract.BookDto;
 import com.library.library_data.model.*;
 import com.library.library_data.repositories.ICatalogData;
 import com.library.library_updater.books.mappers.IMapper;
+import com.library.library_web_api.webapi.contract.LanguageDto;
 import com.library.library_web_api.webapi.contract.SubjectDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -143,6 +144,49 @@ public class BookService implements IBookService{
             subject.getBooks().add(book);
             db.getSubjects().save(subject);
             book.getSubjects().add(subject);
+            db.getBooks().save(book);
+        });
+    }
+
+    @Override
+    public Long getLanguageId(String name, Long bookId) {
+        return db.getBooks().findById(bookId)
+                .map(book -> Objects.requireNonNull(book.getLanguages().stream()
+                        .filter(language -> language.getName().equals(name))
+                        .findFirst().orElse(null)).getId()).orElse(null);
+    }
+
+    @Override
+    public void editLanguage(LanguageDto languageDto, Long bookId) {
+        db.getBooks().findById(bookId).ifPresent(book -> {
+            Language language = book.getLanguages().stream().filter(l -> l.getId()==languageDto.getId()).findFirst().orElse(null);
+            if (language != null) {
+                language.setName(languageDto.getName());
+                db.getLanguages().save(language);
+            }
+        });
+    }
+
+    @Override
+    public void deleteLanguage(Long bookId, Long languageId) {
+        db.getBooks().findById(bookId).ifPresent(book -> {
+            Language language = book.getLanguages().stream().filter(l -> l.getId()==languageId).findFirst().orElse(null);
+            if (language != null) {
+                book.getLanguages().remove(language);
+                language.getBooks().remove(book);
+                db.getLanguages().save(language);
+                db.getBooks().save(book);
+            }
+        });
+    }
+
+    @Override
+    public void addLanguage(LanguageDto languageDto, Long bookId) {
+        db.getBooks().findById(bookId).ifPresent(book -> {
+            Language language = mapper.language().mapToEntity(languageDto.getName());
+            language.getBooks().add(book);
+            db.getLanguages().save(language);
+            book.getLanguages().add(language);
             db.getBooks().save(book);
         });
     }
