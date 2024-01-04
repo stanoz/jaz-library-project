@@ -221,4 +221,15 @@ public class BookController {
         invoker.SafeInvoke(() -> bookService.addBookshelves(bookshelvesDto, bookId));
         return "redirect:/api/books/book-details/" + bookId;
     }
+    @GetMapping("/delete-book/{id}")
+    public String deleteBook(Model model,@PathVariable("id") Long id){
+        BookDto book = bookService.getBookDetails(id);
+        model.addAttribute("book", book);
+        return "delete-book";
+    }
+    @PostMapping("/delete-book/{id}")
+    public String deleteBook(BookDto book, Model model,@PathVariable("id") Long id){
+        invoker.SafeInvoke(() -> bookService.deleteBook(id));
+        return "redirect:/api/books/show-all";
+    }
 }

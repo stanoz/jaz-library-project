@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DeleteBook</title>
+</head>
+<body>
+<span>Delete Book</span>
+<span>Confirm</span>
+<br>
+<form action="#" th:action="@{'/api/books/delete-book/'+${book.id}}" method="post">
+    <div>
+        <span th:text="'ID: '+${id}"></span>
+    </div>
+    <div>
+        <span th:text="'Title: '+${book.getTitle()}"></span>
+    </div>
+    <div>
+        <span th:text="'Download count: '+${book.getDownloadCount()}"></span>
+    </div>
+    <button type="submit">Delete</button>
+</form>
+</body>
+</html>

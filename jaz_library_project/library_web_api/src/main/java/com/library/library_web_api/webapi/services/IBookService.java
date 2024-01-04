@@ -29,4 +29,5 @@ public interface IBookService {
     void editBookshelves(BookshelvesDto bookshelvesDto, Long bookId);
     void deleteBookshelves(Long bookId, Long bookshelvesId);
     void addBookshelves(BookshelvesDto bookshelvesDto, Long bookId);
+    void deleteBook(Long id);
 }
