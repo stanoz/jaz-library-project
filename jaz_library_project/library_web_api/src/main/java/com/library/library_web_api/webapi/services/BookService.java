@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,10 +33,6 @@ public class BookService implements IBookService{
 
     @Override
     public void editBook(BookDto bookDto, Long id) {
-//        Book bookEntity = mapper.book().mapToEntity(bookDto);
-//
-//        db.getBooks().save(bookEntity);
-
         db.getBooks().findById(id).ifPresent(book -> {
             book.setTitle(bookDto.getTitle());
             book.setDownloadCount(bookDto.getDownloadCount());
@@ -59,5 +56,26 @@ public class BookService implements IBookService{
         bookDto.setTitle(book.getTitle());
         bookDto.setDownloadCount(book.getDownloadCount());
         return bookDto;
+    }
+
+    @Override
+    public void editAuthor(AuthorDto authorDto, Long bookId, Long authorId) {
+        db.getBooks().findById(bookId).ifPresent(book -> {
+            Author author = book.getAuthors().stream().filter(a -> a.getId()==authorId).findFirst().orElse(null);
+            if (author != null) {
+                author.setName(authorDto.getName());
+                author.setYearOfBirth(authorDto.getYearOfBirth());
+                author.setYearOfDeath(authorDto.getYearOfDeath());
+                db.getAuthors().save(author);
+            }
+        });
+    }
+
+    @Override
+    public Long getAuthorId(String name, Long bookId) {
+        return db.getBooks().findById(bookId)
+                .map(book -> Objects.requireNonNull(book.getAuthors().stream()
+                        .filter(author -> author.getName().equals(name))
+                        .findFirst().orElse(null)).getId()).orElse(null);
     }
 }

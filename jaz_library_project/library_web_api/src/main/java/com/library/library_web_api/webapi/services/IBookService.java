@@ -1,5 +1,6 @@
 package com.library.library_web_api.webapi.services;
 
+import com.library.library_client.contract.AuthorDto;
 import com.library.library_client.contract.BookDto;
 import com.library.library_data.model.Book;
 
@@ -9,4 +10,6 @@ public interface IBookService {
     List<BookDto> getAllBooks();
     BookDto getBookDetails(Long id);
     void editBook(BookDto book, Long id);
+    void editAuthor(AuthorDto authorDto, Long bookId, Long authorId);
+    Long getAuthorId(String name, Long bookId);
 }

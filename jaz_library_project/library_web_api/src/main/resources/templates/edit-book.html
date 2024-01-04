@@ -23,8 +23,8 @@
     <tbody>
     <tr th:each="author:${book.getAuthors()}">
     <td th:text="${author.name} + ', ' + ${author.yearOfBirth} + ' - ' + ${author.yearOfDeath}"></td>
-        <td><a th:id="'edit-link-'+${author.name}" th:href="@{'/api/books/edit-author/'+${author.name}}">Edit</a></td>
-        <td><a th:id="'delete-link-'+${author.name}" th:href="@{'/api/books/delete-author/'+${author.name}}">Delete</a></td>
+        <td><a th:id="'edit-link'+${author.name}" th:href="@{'/api/books/edit-author/'+${author.name} + '/' + ${book.id}}">Edit</a></td>
+        <td><a th:id="'delete-link'+${author.name}" th:href="@{'/api/books/delete-author/'+${author.name}}">Delete</a></td>
     </tr>
     </tbody>
 </table>
