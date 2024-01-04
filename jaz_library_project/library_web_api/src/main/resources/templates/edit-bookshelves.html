@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EditBookshelves</title>
+</head>
+<body>
+<span>Edit Bookshelves</span><br>
+<form action="#" th:object="${bookshelvesDto}" method="post" th:action="@{'/api/books/edit-bookshelves/' + ${bookId} + '/' + ${bookshelvesDto.id}}">
+    <label>
+        Name: <input th:field="*{name}">
+    </label><br>
+    <button type="submit">Edit</button>
+</form>
+</body>
+</html>

@@ -3,6 +3,7 @@ package com.library.library_web_api.webapi.controllers;
 import com.library.library_client.contract.AuthorDto;
 import com.library.library_client.contract.BookDto;
 import com.library.library_data.model.Author;
+import com.library.library_web_api.webapi.contract.BookshelvesDto;
 import com.library.library_web_api.webapi.contract.LanguageDto;
 import com.library.library_web_api.webapi.contract.SubjectDto;
 import com.library.library_web_api.webapi.services.IBookService;
@@ -174,6 +175,50 @@ public class BookController {
     @PostMapping("/add-language/{bookId}")
     public String addLanguage(LanguageDto languageDto, Model model, @PathVariable("bookId") Long bookId){
         invoker.SafeInvoke(() -> bookService.addLanguage(languageDto, bookId));
+        return "redirect:/api/books/book-details/" + bookId;
+    }
+    @GetMapping("/edit-bookshelves/{name}/{id}")
+    public String editBookshelves(Model model,@PathVariable("name") String name,@PathVariable("id") Long bookId){
+        Long bookshelvesId = bookService.getBookshelvesId(name, bookId);
+        BookshelvesDto bookshelvesDto = new BookshelvesDto();
+        bookshelvesDto.setId(bookshelvesId);
+        bookshelvesDto.setName(name);
+        model.addAttribute("bookId", bookId);
+        model.addAttribute("bookshelvesDto", bookshelvesDto);
+        return "edit-bookshelves";
+    }
+    @PostMapping("/edit-bookshelves/{bookId}/{bookshelvesId}")
+    public String editBookshelves(BookshelvesDto bookshelvesDto,Model model,@PathVariable("bookId") Long bookId,
+                              @PathVariable("bookshelvesId") Long bookshelvesId){
+        bookshelvesDto.setId(bookshelvesId);
+        invoker.SafeInvoke(() -> bookService.editBookshelves(bookshelvesDto, bookId));
+        return "redirect:/api/books/book-details/" + bookId;
+    }
+    @GetMapping("/delete-bookshelves/{name}/{id}")
+    public String deleteBookshelves(Model model,@PathVariable("name") String name,@PathVariable("id") Long bookId) {
+        Long bookshelvesId = bookService.getBookshelvesId(name, bookId);
+        BookshelvesDto bookshelvesDto = new BookshelvesDto();
+        bookshelvesDto.setId(bookshelvesId);
+        bookshelvesDto.setName(name);
+        model.addAttribute("bookId", bookId);
+        model.addAttribute("bookshelvesDto", bookshelvesDto);
+        return "delete-bookshelves";
+    }
+    @PostMapping("/delete-bookshelves/{bookId}/{bookshelvesId}")
+    public String deleteBookshelves(Model model,@PathVariable("bookId") Long bookId, @PathVariable("bookshelvesId") Long bookshelvesId){
+        invoker.SafeInvoke(() -> bookService.deleteBookshelves(bookId, bookshelvesId));
+        return "redirect:/api/books/book-details/" + bookId;
+    }
+    @GetMapping("/add-bookshelves/{id}")
+    public String addBookshelves(Model model,@PathVariable("id") Long bookId){
+        BookshelvesDto bookshelvesDto = new BookshelvesDto();
+        model.addAttribute("bookId", bookId);
+        model.addAttribute("bookshelvesDto", bookshelvesDto);
+        return "add-bookshelves";
+    }
+    @PostMapping("/add-bookshelves/{bookId}")
+    public String addBookshelves(BookshelvesDto bookshelvesDto, Model model, @PathVariable("bookId") Long bookId){
+        invoker.SafeInvoke(() -> bookService.addBookshelves(bookshelvesDto, bookId));
         return "redirect:/api/books/book-details/" + bookId;
     }
 }

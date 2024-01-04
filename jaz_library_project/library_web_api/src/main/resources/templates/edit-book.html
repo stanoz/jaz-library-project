@@ -52,11 +52,17 @@
 </table>
 <a th:href="@{'/api/books/add-language/' + ${book.id}}">Add language</a>
 <br>
-<!--    <span>Bookshelves:</span><ul th:each="bookshelve:${book.getBookshelves()}">-->
-<!--    <li><label>-->
-<!--        <input th:field="${bookshelve}">-->
-<!--    </label></li>-->
-<!--</ul><br>-->
+<span>Bookshelves:</span>
+<table>
+    <tbody>
+    <tr th:each="bookshelve:${book.getBookshelves()}">
+        <td th:text="${bookshelve}"></td>
+        <td><a th:id="'edit-link'+${bookshelve}" th:href="@{'/api/books/edit-bookshelves/'+ ${bookshelve} + '/' + ${book.id}}">Edit</a></td>
+        <td><a th:id="'delete-link'+${bookshelve}" th:href="@{'/api/books/delete-bookshelves/'+ ${bookshelve} + '/' + ${book.id}}">Delete</a></td>
+    </tbody>
+</table>
+<a th:href="@{'/api/books/add-bookshelves/' + ${book.id}}">Add bookshelves</a>
+<br>
 <a th:href="@{'/api/books/show-all'}">Return to the main page.</a>
 </body>
 </html>

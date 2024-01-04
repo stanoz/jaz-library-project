@@ -5,6 +5,7 @@ import com.library.library_client.contract.BookDto;
 import com.library.library_data.model.*;
 import com.library.library_data.repositories.ICatalogData;
 import com.library.library_updater.books.mappers.IMapper;
+import com.library.library_web_api.webapi.contract.BookshelvesDto;
 import com.library.library_web_api.webapi.contract.LanguageDto;
 import com.library.library_web_api.webapi.contract.SubjectDto;
 import lombok.RequiredArgsConstructor;
@@ -187,6 +188,49 @@ public class BookService implements IBookService{
             language.getBooks().add(book);
             db.getLanguages().save(language);
             book.getLanguages().add(language);
+            db.getBooks().save(book);
+        });
+    }
+
+    @Override
+    public Long getBookshelvesId(String name, Long bookId) {
+        return db.getBooks().findById(bookId)
+                .map(book -> Objects.requireNonNull(book.getBookshelves().stream()
+                        .filter(bookshelves -> bookshelves.getName().equals(name))
+                        .findFirst().orElse(null)).getId()).orElse(null);
+    }
+
+    @Override
+    public void editBookshelves(BookshelvesDto bookshelvesDto, Long bookId) {
+        db.getBooks().findById(bookId).ifPresent(book -> {
+            Bookshelves bookshelves = book.getBookshelves().stream().filter(b -> b.getId()==bookshelvesDto.getId()).findFirst().orElse(null);
+            if (bookshelves != null) {
+                bookshelves.setName(bookshelvesDto.getName());
+                db.getBookshelves().save(bookshelves);
+            }
+        });
+    }
+
+    @Override
+    public void deleteBookshelves(Long bookId, Long bookshelvesId) {
+        db.getBooks().findById(bookId).ifPresent(book -> {
+            Bookshelves bookshelves = book.getBookshelves().stream().filter(b -> b.getId()==bookshelvesId).findFirst().orElse(null);
+            if (bookshelves != null) {
+                book.getBookshelves().remove(bookshelves);
+                bookshelves.getBooks().remove(book);
+                db.getBookshelves().save(bookshelves);
+                db.getBooks().save(book);
+            }
+        });
+    }
+
+    @Override
+    public void addBookshelves(BookshelvesDto bookshelvesDto, Long bookId) {
+        db.getBooks().findById(bookId).ifPresent(book -> {
+            Bookshelves bookshelves = mapper.bookshelves().mapToEntity(bookshelvesDto.getName());
+            bookshelves.getBooks().add(book);
+            db.getBookshelves().save(bookshelves);
+            book.getBookshelves().add(bookshelves);
             db.getBooks().save(book);
         });
     }
