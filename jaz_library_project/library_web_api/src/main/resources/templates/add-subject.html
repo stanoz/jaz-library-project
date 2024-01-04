@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AddSubject</title>
+</head>
+<body>
+<span>Add Subject</span><br>
+<form action="#" th:object="${subjectDto}" method="post" th:action="@{'/api/books/add-subject' + '/' + ${bookId}}">
+    <label>
+        Name: <input th:field="*{name}">
+    </label><br>
+    <button type="submit">Add</button>
+</form>
+</body>
+</html>

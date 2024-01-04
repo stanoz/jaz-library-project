@@ -135,4 +135,15 @@ public class BookService implements IBookService{
             }
         });
     }
+
+    @Override
+    public void addSubject(SubjectDto subjectDto, Long bookId) {
+        db.getBooks().findById(bookId).ifPresent(book -> {
+            Subject subject = mapper.subject().mapToEntity(subjectDto.getName());
+            subject.getBooks().add(book);
+            db.getSubjects().save(subject);
+            book.getSubjects().add(subject);
+            db.getBooks().save(book);
+        });
+    }
 }

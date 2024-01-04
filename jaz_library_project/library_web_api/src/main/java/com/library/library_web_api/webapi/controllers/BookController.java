@@ -93,9 +93,7 @@ public class BookController {
         SubjectDto subjectDto = new SubjectDto();
         subjectDto.setId(subjectId);
         subjectDto.setName(name);
-//        model.addAttribute("subjectId", subjectId);
         model.addAttribute("bookId", bookId);
-//        model.addAttribute("subject", name);
         model.addAttribute("subjectDto", subjectDto);
         return "edit-subject";
     }
@@ -119,6 +117,18 @@ public class BookController {
     @PostMapping("/delete-subject/{bookId}{subjectId}")
     public String deleteSubject(Model model,@PathVariable("bookId") Long bookId, @PathVariable("subjectId") Long subjectId){
         invoker.SafeInvoke(() -> bookService.deleteSubject(bookId, subjectId));
+        return "redirect:/api/books/book-details/" + bookId;
+    }
+    @GetMapping("/add-subject/{id}")
+    public String addSubject(Model model,@PathVariable("id") Long bookId){
+        SubjectDto subjectDto = new SubjectDto();
+        model.addAttribute("bookId", bookId);
+        model.addAttribute("subjectDto", subjectDto);
+        return "add-subject";
+    }
+    @PostMapping("/add-subject/{bookId}")
+    public String addSubject(SubjectDto subjectDto, Model model, @PathVariable("bookId") Long bookId){
+        invoker.SafeInvoke(() -> bookService.addSubject(subjectDto, bookId));
         return "redirect:/api/books/book-details/" + bookId;
     }
 }

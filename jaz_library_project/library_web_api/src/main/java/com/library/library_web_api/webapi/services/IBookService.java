@@ -18,4 +18,5 @@ public interface IBookService {
     Long getSubjectId(String name, Long bookId);
     void editSubject(SubjectDto subjectDto, Long bookId);
     void deleteSubject(Long bookId, Long subjectId);
+    void addSubject(SubjectDto subjectDto, Long bookId);
 }
