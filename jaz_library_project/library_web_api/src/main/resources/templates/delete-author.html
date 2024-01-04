@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DeleteAuthor</title>
+</head>
+<body>
+<span>Delete Author</span><br>
+<span>Confirm</span>
+<span th:text="'Name:' + ${author.name}"></span><br>
+<span th:text="'Year of birth:' + ${author.yearOfBirth}"></span><br>
+<span th:text="'Year of death:' + ${author.yearOfDeath}"></span><br>
+<form action="#" th:object="${author}" method="post" th:action="@{'/api/books/delete-author/' + ${name} + '/' + ${bookId} + '/' + ${authorId}}">
+    <button type="submit">Delete</button>
+</form>
+</body>
+</html>

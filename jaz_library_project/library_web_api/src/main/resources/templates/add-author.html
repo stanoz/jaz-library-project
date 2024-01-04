@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AddAuthor</title>
+</head>
+<body>
+<span>Add Author</span><br>
+<form action="#" th:object="${author}" method="post" th:action="@{'/api/books/add-author' + '/' + ${bookId}}">
+    <label>
+        Name: <input th:field="*{name}">
+    </label><br>
+    <label>
+        Year of birth: <input th:field="*{yearOfBirth}">
+    </label><br>
+    <label>
+        Year of death: <input th:field="*{yearOfDeath}">
+    </label><br>
+    <button type="submit">Add</button>
+</form>
+</body>
+</html>

@@ -78,4 +78,28 @@ public class BookService implements IBookService{
                         .filter(author -> author.getName().equals(name))
                         .findFirst().orElse(null)).getId()).orElse(null);
     }
+
+    @Override
+    public void deleteAuthor(Long bookId, Long authorId) {
+        db.getBooks().findById(bookId).ifPresent(book -> {
+            Author author = book.getAuthors().stream().filter(a -> a.getId()==authorId).findFirst().orElse(null);
+            if (author != null) {
+                book.getAuthors().remove(author);
+                author.getBooks().remove(book);
+                db.getAuthors().save(author);
+                db.getBooks().save(book);
+            }
+        });
+    }
+
+    @Override
+    public void addAuthor(AuthorDto authorDto, Long bookId) {
+        db.getBooks().findById(bookId).ifPresent(book -> {
+            Author author = mapper.author().mapToEntity(authorDto);
+            author.getBooks().add(book);
+            db.getAuthors().save(author);
+            book.getAuthors().add(author);
+            db.getBooks().save(book);
+        });
+    }
 }
