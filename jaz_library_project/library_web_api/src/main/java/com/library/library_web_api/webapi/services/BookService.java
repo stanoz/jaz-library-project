@@ -238,28 +238,6 @@ public class BookService implements IBookService{
     @Override
     public void deleteBook(Long id) {
         if (db.getBooks().existsById(id)) {
-            db.getBooks().findById(id).ifPresent(book -> {
-                book.getAuthors().forEach(author -> {
-                    author.getBooks().remove(book);
-                    book.getAuthors().remove(author);
-                    db.getAuthors().save(author);
-                });
-                book.getBookshelves().forEach(bookshelves -> {
-                    bookshelves.getBooks().remove(book);
-                    book.getBookshelves().remove(bookshelves);
-                    db.getBookshelves().save(bookshelves);
-                });
-                book.getLanguages().forEach(language -> {
-                    language.getBooks().remove(book);
-                    book.getLanguages().remove(language);
-                    db.getLanguages().save(language);
-                });
-                book.getSubjects().forEach(subject -> {
-                    subject.getBooks().remove(book);
-                    book.getSubjects().remove(subject);
-                    db.getSubjects().save(subject);
-                });
-            });
             db.getBooks().deleteById(id);
         }
     }
