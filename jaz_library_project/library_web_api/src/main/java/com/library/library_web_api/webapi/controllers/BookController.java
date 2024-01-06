@@ -5,6 +5,7 @@ import com.library.library_client.contract.BookDto;
 import com.library.library_data.model.Author;
 import com.library.library_web_api.webapi.contract.BookshelvesDto;
 import com.library.library_web_api.webapi.contract.LanguageDto;
+import com.library.library_web_api.webapi.contract.NewBookDto;
 import com.library.library_web_api.webapi.contract.SubjectDto;
 import com.library.library_web_api.webapi.services.IBookService;
 import com.library.tools.safeinvoker.SafeInvoking;
@@ -230,6 +231,17 @@ public class BookController {
     @PostMapping("/delete-book/{id}")
     public String deleteBook(BookDto book, Model model,@PathVariable("id") Long id){
         invoker.SafeInvoke(() -> bookService.deleteBook(id));
+        return "redirect:/api/books/show-all";
+    }
+    @GetMapping("/add-book")
+    public String addBook(Model model){
+        NewBookDto newBookDto = new NewBookDto();
+        model.addAttribute("newBookDto", newBookDto);
+        return "add-book";
+    }
+    @PostMapping("/add-book")
+    public String addBook(NewBookDto newBookDto, Model model){
+        invoker.SafeInvoke(() -> bookService.addBook(newBookDto));
         return "redirect:/api/books/show-all";
     }
 }

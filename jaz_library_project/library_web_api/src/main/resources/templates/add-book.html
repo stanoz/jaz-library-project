@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AddBook</title>
+</head>
+<body>
+<span>Add Book</span>
+<form action="#" th:object="${newBookDto}" method="post" th:action="@{'/api/books/add-book'}">
+    <label>
+        Title: <input type="text" th:field="*{title}"/>
+    </label>
+    <br>
+    <label>
+        Download count: <input type="text" th:field="*{downloadCount}">
+    </label>
+    <button type="submit">Add</button>
+</form>
+</body>
+</html>

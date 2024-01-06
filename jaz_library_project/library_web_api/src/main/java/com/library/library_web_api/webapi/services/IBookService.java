@@ -5,6 +5,7 @@ import com.library.library_client.contract.BookDto;
 import com.library.library_data.model.Book;
 import com.library.library_web_api.webapi.contract.BookshelvesDto;
 import com.library.library_web_api.webapi.contract.LanguageDto;
+import com.library.library_web_api.webapi.contract.NewBookDto;
 import com.library.library_web_api.webapi.contract.SubjectDto;
 
 import java.util.List;
@@ -30,4 +31,5 @@ public interface IBookService {
     void deleteBookshelves(Long bookId, Long bookshelvesId);
     void addBookshelves(BookshelvesDto bookshelvesDto, Long bookId);
     void deleteBook(Long id);
+    void addBook(NewBookDto newBookDto);
 }

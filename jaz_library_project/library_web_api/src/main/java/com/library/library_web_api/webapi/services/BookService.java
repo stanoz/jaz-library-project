@@ -7,10 +7,12 @@ import com.library.library_data.repositories.ICatalogData;
 import com.library.library_updater.books.mappers.IMapper;
 import com.library.library_web_api.webapi.contract.BookshelvesDto;
 import com.library.library_web_api.webapi.contract.LanguageDto;
+import com.library.library_web_api.webapi.contract.NewBookDto;
 import com.library.library_web_api.webapi.contract.SubjectDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -263,5 +265,13 @@ public class BookService implements IBookService{
         if (db.getBooks().existsById(id)) {
             db.getBooks().deleteById(id);
         }
+    }
+
+    @Override
+    public void addBook(NewBookDto newBookDto) {
+        Book book = new Book();
+        book.setTitle(newBookDto.getTitle());
+        book.setDownloadCount(newBookDto.getDownloadCount());
+        db.getBooks().save(book);
     }
 }
