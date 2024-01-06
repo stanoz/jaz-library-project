@@ -98,10 +98,16 @@ public class BookService implements IBookService{
     @Override
     public void addAuthor(AuthorDto authorDto, Long bookId) {
         db.getBooks().findById(bookId).ifPresent(book -> {
-            Author author = mapper.author().mapToEntity(authorDto);
-            author.getBooks().add(book);
-            db.getAuthors().save(author);
-            book.getAuthors().add(author);
+            if (db.getAuthors().existsByName(authorDto.getName())) {
+                Author author = db.getAuthors().findByName(authorDto.getName());
+                author.getBooks().add(book);
+                book.getAuthors().add(author);
+            }else {
+                Author author = mapper.author().mapToEntity(authorDto);
+                author.getBooks().add(book);
+                db.getAuthors().save(author);
+                book.getAuthors().add(author);
+            }
             db.getBooks().save(book);
         });
     }
@@ -141,10 +147,16 @@ public class BookService implements IBookService{
     @Override
     public void addSubject(SubjectDto subjectDto, Long bookId) {
         db.getBooks().findById(bookId).ifPresent(book -> {
-            Subject subject = mapper.subject().mapToEntity(subjectDto.getName());
-            subject.getBooks().add(book);
-            db.getSubjects().save(subject);
-            book.getSubjects().add(subject);
+            if (db.getSubjects().existsByName(subjectDto.getName())) {
+                Subject subject = db.getSubjects().findByName(subjectDto.getName());
+                subject.getBooks().add(book);
+                book.getSubjects().add(subject);
+            }else {
+                Subject subject = mapper.subject().mapToEntity(subjectDto.getName());
+                subject.getBooks().add(book);
+                db.getSubjects().save(subject);
+                book.getSubjects().add(subject);
+            }
             db.getBooks().save(book);
         });
     }
@@ -184,10 +196,16 @@ public class BookService implements IBookService{
     @Override
     public void addLanguage(LanguageDto languageDto, Long bookId) {
         db.getBooks().findById(bookId).ifPresent(book -> {
-            Language language = mapper.language().mapToEntity(languageDto.getName());
-            language.getBooks().add(book);
-            db.getLanguages().save(language);
-            book.getLanguages().add(language);
+            if (db.getLanguages().existsByName(languageDto.getName())) {
+                Language language = db.getLanguages().findByName(languageDto.getName());
+                language.getBooks().add(book);
+                book.getLanguages().add(language);
+            }else {
+                Language language = mapper.language().mapToEntity(languageDto.getName());
+                language.getBooks().add(book);
+                db.getLanguages().save(language);
+                book.getLanguages().add(language);
+            }
             db.getBooks().save(book);
         });
     }
@@ -227,10 +245,16 @@ public class BookService implements IBookService{
     @Override
     public void addBookshelves(BookshelvesDto bookshelvesDto, Long bookId) {
         db.getBooks().findById(bookId).ifPresent(book -> {
-            Bookshelves bookshelves = mapper.bookshelves().mapToEntity(bookshelvesDto.getName());
-            bookshelves.getBooks().add(book);
-            db.getBookshelves().save(bookshelves);
-            book.getBookshelves().add(bookshelves);
+            if (db.getBookshelves().existsByName(bookshelvesDto.getName())) {
+                Bookshelves bookshelves = db.getBookshelves().findByName(bookshelvesDto.getName());
+                bookshelves.getBooks().add(book);
+                book.getBookshelves().add(bookshelves);
+            }else {
+                Bookshelves bookshelves = mapper.bookshelves().mapToEntity(bookshelvesDto.getName());
+                bookshelves.getBooks().add(book);
+                db.getBookshelves().save(bookshelves);
+                book.getBookshelves().add(bookshelves);
+            }
             db.getBooks().save(book);
         });
     }
