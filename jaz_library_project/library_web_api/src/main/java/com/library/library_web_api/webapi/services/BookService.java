@@ -25,8 +25,7 @@ public class BookService implements IBookService{
 
     @Override
     public List<BookDto> getAllBooks() {
-        return db.getBooks().findAll().stream().map(BookService::getBookDto).toList().stream()
-                .sorted(Comparator.comparingLong(BookDto::getId)).collect(Collectors.toList());
+        return db.getBooks().findAllByOrderById().stream().map(BookService::getBookDto).toList();
     }
 
     @Override
