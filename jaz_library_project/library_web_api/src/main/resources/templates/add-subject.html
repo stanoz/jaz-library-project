@@ -6,7 +6,7 @@
 </head>
 <body>
 <span>Add Subject</span><br>
-<form action="#" th:object="${subjectDto}" method="post" th:action="@{'/api/books/add-subject' + '/' + ${bookId}}">
+<form action="#" th:object="${subjectDto}" method="post" th:action="@{'/web/api/books/add-subject' + '/' + ${bookId}}">
     <label>
         Name: <input th:field="*{name}">
     </label><br>

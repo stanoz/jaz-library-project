@@ -10,7 +10,7 @@
 <span th:text="'Name:' + ${author.name}"></span><br>
 <span th:text="'Year of birth:' + ${author.yearOfBirth}"></span><br>
 <span th:text="'Year of death:' + ${author.yearOfDeath}"></span><br>
-<form action="#" th:object="${author}" method="post" th:action="@{'/api/books/delete-author/' + ${name} + '/' + ${bookId} + '/' + ${authorId}}">
+<form action="#" th:object="${author}" method="post" th:action="@{'/web/api/books/delete-author/' + ${name} + '/' + ${bookId} + '/' + ${authorId}}">
     <button type="submit">Delete</button>
 </form>
 </body>

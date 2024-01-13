@@ -6,7 +6,7 @@
 </head>
 <body>
 <span>Add Language</span><br>
-<form action="#" th:object="${languageDto}" method="post" th:action="@{'/api/books/add-language' + '/' + ${bookId}}">
+<form action="#" th:object="${languageDto}" method="post" th:action="@{'/web/api/books/add-language' + '/' + ${bookId}}">
     <label>
         Name: <input th:field="*{name}">
     </label><br>

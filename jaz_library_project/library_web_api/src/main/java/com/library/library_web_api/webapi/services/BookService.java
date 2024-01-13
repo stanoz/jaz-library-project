@@ -5,10 +5,7 @@ import com.library.library_client.contract.BookDto;
 import com.library.library_data.model.*;
 import com.library.library_data.repositories.ICatalogData;
 import com.library.library_updater.books.mappers.IMapper;
-import com.library.library_web_api.webapi.contract.BookshelvesDto;
-import com.library.library_web_api.webapi.contract.LanguageDto;
-import com.library.library_web_api.webapi.contract.NewBookDto;
-import com.library.library_web_api.webapi.contract.SubjectDto;
+import com.library.library_web_api.webapi.contract.*;
 import com.library.library_web_api.webapi.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -69,6 +66,42 @@ public class BookService implements IBookService{
         bookDto.setTitle(book.getTitle());
         bookDto.setDownloadCount(book.getDownloadCount());
         return bookDto;
+    }
+
+    @Override
+    public List<AuthorDbDto> getAllAuthors() {
+        return db.getAuthors().findAll().stream().map(author -> {
+            AuthorDbDto authorDbDto = new AuthorDbDto();
+            authorDbDto.setId(author.getId());
+            authorDbDto.setName(author.getName());
+            authorDbDto.setYearOfBirth(author.getYearOfBirth());
+            authorDbDto.setYearOfDeath(author.getYearOfDeath());
+            return authorDbDto;
+        }).toList();
+    }
+
+    @Override
+    public AuthorDto getAuthor(Long authorId) {
+        return db.getAuthors().findById(authorId).map(author -> {
+            AuthorDto authorDto = new AuthorDto();
+            authorDto.setName(author.getName());
+            authorDto.setYearOfBirth(author.getYearOfBirth());
+            authorDto.setYearOfDeath(author.getYearOfDeath());
+            return authorDto;
+        }).orElseThrow(() -> new NotFoundException("Author not found"));
+    }
+
+    @Override
+    public List<AuthorDbDto> getAllAuthorsFromBook(Long bookId) {
+        return db.getBooks().findById(bookId).orElseThrow(() -> new NotFoundException("Book not found"))
+                .getAuthors().stream().map(author -> {
+                    AuthorDbDto authorDbDto = new AuthorDbDto();
+                    authorDbDto.setId(author.getId());
+                    authorDbDto.setName(author.getName());
+                    authorDbDto.setYearOfBirth(author.getYearOfBirth());
+                    authorDbDto.setYearOfDeath(author.getYearOfDeath());
+                    return authorDbDto;
+                }).toList();
     }
 
     @Override
@@ -141,6 +174,38 @@ public class BookService implements IBookService{
     }
 
     @Override
+    public List<SubjectDto> getAllSubjects() {
+        return db.getSubjects().findAll().stream().map(subject -> {
+            SubjectDto subjectDto = new SubjectDto();
+            subjectDto.setId(subject.getId());
+            subjectDto.setName(subject.getName());
+            return subjectDto;
+        }).toList();
+    }
+
+    @Override
+    public SubjectDto getSubject(Long subjectId) {
+        return db.getSubjects().findById(subjectId)
+                .map(subject -> {
+                    SubjectDto subjectDto = new SubjectDto();
+                    subjectDto.setId(subject.getId());
+                    subjectDto.setName(subject.getName());
+                    return subjectDto;
+                }).orElseThrow(() -> new NotFoundException("Subject not found"));
+    }
+
+    @Override
+    public List<SubjectDto> getAllSubjectsFromBook(Long bookId) {
+        return db.getBooks().findById(bookId).orElseThrow(() -> new NotFoundException("Book not found"))
+                .getSubjects().stream().map(subject -> {
+                    SubjectDto subjectDto = new SubjectDto();
+                    subjectDto.setId(subject.getId());
+                    subjectDto.setName(subject.getName());
+                    return subjectDto;
+                }).toList();
+    }
+
+    @Override
     public void editSubject(SubjectDto subjectDto, Long bookId) {
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             Subject subject = book.getSubjects().stream()
@@ -199,6 +264,38 @@ public class BookService implements IBookService{
     }
 
     @Override
+    public List<LanguageDto> getAllLanguages() {
+        return db.getLanguages().findAll().stream().map(language -> {
+            LanguageDto languageDto = new LanguageDto();
+            languageDto.setId(language.getId());
+            languageDto.setName(language.getName());
+            return languageDto;
+        }).toList();
+    }
+
+    @Override
+    public LanguageDto getLanguage(Long languageId) {
+        return db.getLanguages().findById(languageId)
+                .map(language -> {
+                    LanguageDto languageDto = new LanguageDto();
+                    languageDto.setId(language.getId());
+                    languageDto.setName(language.getName());
+                    return languageDto;
+                }).orElseThrow(() -> new NotFoundException("Language not found"));
+    }
+
+    @Override
+    public List<LanguageDto> getAllLanguagesFromBook(Long bookId) {
+        return db.getBooks().findById(bookId).orElseThrow(() -> new NotFoundException("Book not found"))
+                .getLanguages().stream().map(language -> {
+                    LanguageDto languageDto = new LanguageDto();
+                    languageDto.setId(language.getId());
+                    languageDto.setName(language.getName());
+                    return languageDto;
+                }).toList();
+    }
+
+    @Override
     public void editLanguage(LanguageDto languageDto, Long bookId) {
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             Language language = book.getLanguages().stream()
@@ -254,6 +351,38 @@ public class BookService implements IBookService{
                         .filter(bookshelves -> bookshelves.getName().equals(name))
                         .findFirst().orElseThrow(() -> new NotFoundException("Bookshelves not found"))).getId())
                 .orElseThrow(() -> new NotFoundException("Book not found"));
+    }
+
+    @Override
+    public List<BookshelvesDto> getAllBookshelves() {
+        return db.getBookshelves().findAll().stream().map(bookshelves -> {
+            BookshelvesDto bookshelvesDto = new BookshelvesDto();
+            bookshelvesDto.setId(bookshelves.getId());
+            bookshelvesDto.setName(bookshelves.getName());
+            return bookshelvesDto;
+        }).toList();
+    }
+
+    @Override
+    public BookshelvesDto getBookshelves(Long bookshelvesId) {
+        return db.getBookshelves().findById(bookshelvesId)
+                .map(bookshelves -> {
+                    BookshelvesDto bookshelvesDto = new BookshelvesDto();
+                    bookshelvesDto.setId(bookshelves.getId());
+                    bookshelvesDto.setName(bookshelves.getName());
+                    return bookshelvesDto;
+                }).orElseThrow(() -> new NotFoundException("Bookshelves not found"));
+    }
+
+    @Override
+    public List<BookshelvesDto> getAllBookshelvesFromBook(Long bookId) {
+        return db.getBooks().findById(bookId).orElseThrow(() -> new NotFoundException("Book not found"))
+                .getBookshelves().stream().map(bookshelves -> {
+                    BookshelvesDto bookshelvesDto = new BookshelvesDto();
+                    bookshelvesDto.setId(bookshelves.getId());
+                    bookshelvesDto.setName(bookshelves.getName());
+                    return bookshelvesDto;
+                }).toList();
     }
 
     @Override

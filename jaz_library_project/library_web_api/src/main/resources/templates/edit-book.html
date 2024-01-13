@@ -6,7 +6,7 @@
 </head>
 <body>
 <span>Edit Book</span><br>
-<form action="#" th:object="${book}" method="post" th:action="@{'/api/books/edit-book/' + ${id}}">
+<form action="#" th:object="${book}" method="post" th:action="@{'/web/api/books/edit-book/' + ${id}}">
     <label>
         <span th:text="'ID: ' + ${book.id}"></span>
     </label><br>
@@ -23,46 +23,46 @@
     <tbody>
     <tr th:each="author:${book.getAuthors()}">
     <td th:text="${author.name} + ', ' + ${author.yearOfBirth} + ' - ' + ${author.yearOfDeath}"></td>
-        <td><a th:id="'edit-link'+${author.name}" th:href="@{'/api/books/edit-author/'+${author.name} + '/' + ${book.id}}">Edit</a></td>
-        <td><a th:id="'delete-link'+${author.name}" th:href="@{'/api/books/delete-author/'+${author.name} + '/' + ${book.id}}">Delete</a></td>
+        <td><a th:id="'edit-link'+${author.name}" th:href="@{'/web/api/books/edit-author/'+${author.name} + '/' + ${book.id}}">Edit</a></td>
+        <td><a th:id="'delete-link'+${author.name}" th:href="@{'/web/api/books/delete-author/'+${author.name} + '/' + ${book.id}}">Delete</a></td>
     </tr>
     </tbody>
 </table>
-<a th:href="@{'/api/books/add-author/' + ${book.id}}">Add author</a>
+<a th:href="@{'/web/api/books/add-author/' + ${book.id}}">Add author</a>
 <br>
 <span>Subjects:</span>
 <table>
     <tbody>
     <tr th:each="subject:${book.getSubjects()}">
         <td th:text="${subject}"></td>
-        <td><a th:id="'edit-link'+${subject}" th:href="@{'/api/books/edit-subject/'+ ${subject} + '/' + ${book.id}}">Edit</a></td>
-        <td><a th:id="'delete-link'+${subject}" th:href="@{'/api/books/delete-subject/'+ ${subject} + '/' + ${book.id}}">Delete</a></td>
+        <td><a th:id="'edit-link'+${subject}" th:href="@{'/web/api/books/edit-subject/'+ ${subject} + '/' + ${book.id}}">Edit</a></td>
+        <td><a th:id="'delete-link'+${subject}" th:href="@{'/web/api/books/delete-subject/'+ ${subject} + '/' + ${book.id}}">Delete</a></td>
     </tbody>
 </table>
-<a th:href="@{'/api/books/add-subject/' + ${book.id}}">Add subject</a>
+<a th:href="@{'/web/api/books/add-subject/' + ${book.id}}">Add subject</a>
 <br>
 <span>Languages:</span>
 <table>
     <tbody>
     <tr th:each="language:${book.getLanguages()}">
         <td th:text="${language}"></td>
-        <td><a th:id="'edit-link'+${language}" th:href="@{'/api/books/edit-language/'+ ${language} + '/' + ${book.id}}">Edit</a></td>
-        <td><a th:id="'delete-link'+${language}" th:href="@{'/api/books/delete-language/'+ ${language} + '/' + ${book.id}}">Delete</a></td>
+        <td><a th:id="'edit-link'+${language}" th:href="@{'/web/api/books/edit-language/'+ ${language} + '/' + ${book.id}}">Edit</a></td>
+        <td><a th:id="'delete-link'+${language}" th:href="@{'/web/api/books/delete-language/'+ ${language} + '/' + ${book.id}}">Delete</a></td>
     </tbody>
 </table>
-<a th:href="@{'/api/books/add-language/' + ${book.id}}">Add language</a>
+<a th:href="@{'/web/api/books/add-language/' + ${book.id}}">Add language</a>
 <br>
 <span>Bookshelves:</span>
 <table>
     <tbody>
     <tr th:each="bookshelve:${book.getBookshelves()}">
         <td th:text="${bookshelve}"></td>
-        <td><a th:id="'edit-link'+${bookshelve}" th:href="@{'/api/books/edit-bookshelves/'+ ${bookshelve} + '/' + ${book.id}}">Edit</a></td>
-        <td><a th:id="'delete-link'+${bookshelve}" th:href="@{'/api/books/delete-bookshelves/'+ ${bookshelve} + '/' + ${book.id}}">Delete</a></td>
+        <td><a th:id="'edit-link'+${bookshelve}" th:href="@{'/web/api/books/edit-bookshelves/'+ ${bookshelve} + '/' + ${book.id}}">Edit</a></td>
+        <td><a th:id="'delete-link'+${bookshelve}" th:href="@{'/web/api/books/delete-bookshelves/'+ ${bookshelve} + '/' + ${book.id}}">Delete</a></td>
     </tbody>
 </table>
-<a th:href="@{'/api/books/add-bookshelves/' + ${book.id}}">Add bookshelves</a>
+<a th:href="@{'/web/api/books/add-bookshelves/' + ${book.id}}">Add bookshelves</a>
 <br>
-<a th:href="@{'/api/books/show-all'}">Return to the main page.</a>
+<a th:href="@{'/web/api/books/show-all'}">Return to the main page.</a>
 </body>
 </html>

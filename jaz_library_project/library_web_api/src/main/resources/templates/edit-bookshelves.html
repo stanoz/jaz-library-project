@@ -6,7 +6,7 @@
 </head>
 <body>
 <span>Edit Bookshelves</span><br>
-<form action="#" th:object="${bookshelvesDto}" method="post" th:action="@{'/api/books/edit-bookshelves/' + ${bookId} + '/' + ${bookshelvesDto.id}}">
+<form action="#" th:object="${bookshelvesDto}" method="post" th:action="@{'/web/api/books/edit-bookshelves/' + ${bookId} + '/' + ${bookshelvesDto.id}}">
     <label>
         Name: <input th:field="*{name}">
     </label><br>

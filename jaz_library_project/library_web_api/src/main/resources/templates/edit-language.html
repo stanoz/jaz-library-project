@@ -6,7 +6,7 @@
 </head>
 <body>
 <span>Edit Language</span><br>
-<form action="#" th:object="${languageDto}" method="post" th:action="@{'/api/books/edit-language/' + ${bookId} + '/' + ${languageDto.id}}">
+<form action="#" th:object="${languageDto}" method="post" th:action="@{'/web/api/books/edit-language/' + ${bookId} + '/' + ${languageDto.id}}">
     <label>
         Name: <input th:field="*{name}">
     </label><br>

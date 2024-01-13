@@ -8,7 +8,7 @@
 <span>Delete Book</span>
 <span>Confirm</span>
 <br>
-<form action="#" th:action="@{'/api/books/delete-book/'+${book.id}}" method="post">
+<form action="#" th:action="@{'/web/api/books/delete-book/'+${book.id}}" method="post">
     <div>
         <span th:text="'ID: '+${id}"></span>
     </div>

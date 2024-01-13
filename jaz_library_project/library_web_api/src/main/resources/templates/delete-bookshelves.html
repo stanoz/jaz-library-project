@@ -8,7 +8,7 @@
 <span>Delete Bookshelves</span><br>
 <span>Confirm</span>
 <span th:text="'Name:' + ${bookshelvesDto.name}"></span><br>
-<form action="#" th:object="${bookshelvesDto}" method="post" th:action="@{'/api/books/delete-bookshelves/' + ${bookId} + '/' + ${bookshelvesDto.id}}">
+<form action="#" th:object="${bookshelvesDto}" method="post" th:action="@{'/web/api/books/delete-bookshelves/' + ${bookId} + '/' + ${bookshelvesDto.id}}">
     <button type="submit">Delete</button>
 </form>
 </body>

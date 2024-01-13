@@ -6,7 +6,7 @@
 </head>
 <body>
 <span>Edit Author</span><br>
-<form action="#" th:object="${author}" method="post" th:action="@{'/api/books/edit-author/' + ${name} + '/' + ${bookId} + '/' + ${authorId}}">
+<form action="#" th:object="${author}" method="post" th:action="@{'/web/api/books/edit-author/' + ${name} + '/' + ${bookId} + '/' + ${authorId}}">
     <label>
         Name: <input th:field="*{name}">
     </label><br>
