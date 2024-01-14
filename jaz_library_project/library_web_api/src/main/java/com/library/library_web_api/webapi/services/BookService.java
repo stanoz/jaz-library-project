@@ -12,6 +12,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 
@@ -26,6 +28,8 @@ public class BookService implements IBookService{
     private final ICatalogData db;
     private final IMapper mapper;
     private final IValidate validator;
+    private static final Logger log = LoggerFactory.getLogger(BookService.class);
+
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -33,16 +37,19 @@ public class BookService implements IBookService{
 
     @Override
     public List<BookDto> getAllBooks() {
+        log.info("Getting all books");
         return db.getBooks().findAllByOrderById().stream().map(BookService::getBookDto).toList();
     }
 
     @Override
     public BookDto getBookDetails(Long id) {
+        log.info("Getting book details: " + id);
         return db.getBooks().findById(id).map(BookService::getBookDto).orElseThrow(() -> new NotFoundException("Book not found"));
     }
 
     @Override
     public void editBook(BookDto bookDto, Long id) {
+        log.info("Editing book: " + id);
         if (!validator.validateBook(bookDto)){
             throw new IllegalArgumentException("Invalid book");
         }
@@ -75,6 +82,7 @@ public class BookService implements IBookService{
 
     @Override
     public List<AuthorDbDto> getAllAuthors() {
+        log.info("Getting all authors");
         return db.getAuthors().findAll().stream().map(author -> {
             AuthorDbDto authorDbDto = new AuthorDbDto();
             authorDbDto.setId(author.getId());
@@ -87,6 +95,7 @@ public class BookService implements IBookService{
 
     @Override
     public AuthorDto getAuthor(Long authorId) {
+        log.info("Getting author: " + authorId);
         return db.getAuthors().findById(authorId).map(author -> {
             AuthorDto authorDto = new AuthorDto();
             authorDto.setName(author.getName());
@@ -98,6 +107,7 @@ public class BookService implements IBookService{
 
     @Override
     public List<AuthorDbDto> getAllAuthorsFromBook(Long bookId) {
+        log.info("Getting all authors from book: " + bookId);
         return db.getBooks().findById(bookId).orElseThrow(() -> new NotFoundException("Book not found"))
                 .getAuthors().stream().map(author -> {
                     AuthorDbDto authorDbDto = new AuthorDbDto();
@@ -111,6 +121,7 @@ public class BookService implements IBookService{
 
     @Override
     public void editAuthor(AuthorDto authorDto, Long bookId, Long authorId) {
+        log.info("Editing author: " + authorId);
         if (!validator.validateAuthor(authorDto)){
             throw new IllegalArgumentException("Invalid author");
         }
@@ -130,6 +141,7 @@ public class BookService implements IBookService{
 
     @Override
     public Long getAuthorId(String name, Long bookId) {
+        log.info("Getting author id");
         return db.getBooks().findById(bookId)
                 .map(book -> Objects.requireNonNull(book.getAuthors().stream()
                         .filter(author -> author.getName().equals(name))
@@ -139,6 +151,7 @@ public class BookService implements IBookService{
 
     @Override
     public void deleteAuthor(Long bookId, Long authorId) {
+        log.info("Deleting author: " + authorId);
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             Author author = book.getAuthors().stream()
                     .filter(a -> a.getId()==authorId).findFirst().orElseThrow(() -> new NotFoundException("Author not found"));
@@ -155,6 +168,7 @@ public class BookService implements IBookService{
 
     @Override
     public void addAuthor(AuthorDto authorDto, Long bookId) {
+        log.info("Adding author to book: " + bookId);
         if (!validator.validateAuthor(authorDto)){
             throw new IllegalArgumentException("Invalid author");
         }
@@ -177,6 +191,7 @@ public class BookService implements IBookService{
 
     @Override
     public Long getSubjectId(String name, Long bookId) {
+        log.info("Getting subject id");
         return db.getBooks().findById(bookId)
                 .map(book -> Objects.requireNonNull(book.getSubjects().stream()
                         .filter(subject -> subject.getName().equals(name))
@@ -186,6 +201,7 @@ public class BookService implements IBookService{
 
     @Override
     public List<SubjectDto> getAllSubjects() {
+        log.info("Getting all subjects");
         return db.getSubjects().findAll().stream().map(subject -> {
             SubjectDto subjectDto = new SubjectDto();
             subjectDto.setId(subject.getId());
@@ -196,6 +212,7 @@ public class BookService implements IBookService{
 
     @Override
     public SubjectDto getSubject(Long subjectId) {
+        log.info("Getting subject: " + subjectId);
         return db.getSubjects().findById(subjectId)
                 .map(subject -> {
                     SubjectDto subjectDto = new SubjectDto();
@@ -207,6 +224,7 @@ public class BookService implements IBookService{
 
     @Override
     public List<SubjectDto> getAllSubjectsFromBook(Long bookId) {
+        log.info("Getting all subjects from book: " + bookId);
         return db.getBooks().findById(bookId).orElseThrow(() -> new NotFoundException("Book not found"))
                 .getSubjects().stream().map(subject -> {
                     SubjectDto subjectDto = new SubjectDto();
@@ -218,6 +236,7 @@ public class BookService implements IBookService{
 
     @Override
     public void editSubject(SubjectDto subjectDto, Long bookId) {
+        log.info("Editing subject: " + subjectDto.getId());
         if (!validator.validateStringDto(subjectDto.getName())){
             throw new IllegalArgumentException("Invalid subject");
         }
@@ -235,6 +254,7 @@ public class BookService implements IBookService{
 
     @Override
     public void deleteSubject(Long bookId, Long subjectId) {
+        log.info("Deleting subject: " + subjectId);
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             Subject subject = book.getSubjects().stream()
                     .filter(s -> s.getId()==subjectId).findFirst().orElseThrow(() -> new NotFoundException("Subject not found"));
@@ -251,6 +271,7 @@ public class BookService implements IBookService{
 
     @Override
     public void addSubject(SubjectDto subjectDto, Long bookId) {
+        log.info("Adding subject to book: " + bookId);
         if (!validator.validateStringDto(subjectDto.getName())){
             throw new IllegalArgumentException("Invalid subject");
         }
@@ -273,6 +294,7 @@ public class BookService implements IBookService{
 
     @Override
     public Long getLanguageId(String name, Long bookId) {
+        log.info("Getting language id");
         return db.getBooks().findById(bookId)
                 .map(book -> Objects.requireNonNull(book.getLanguages().stream()
                         .filter(language -> language.getName().equals(name))
@@ -282,6 +304,7 @@ public class BookService implements IBookService{
 
     @Override
     public List<LanguageDto> getAllLanguages() {
+        log.info("Getting all languages");
         return db.getLanguages().findAll().stream().map(language -> {
             LanguageDto languageDto = new LanguageDto();
             languageDto.setId(language.getId());
@@ -292,6 +315,7 @@ public class BookService implements IBookService{
 
     @Override
     public LanguageDto getLanguage(Long languageId) {
+        log.info("Getting language: " + languageId);
         return db.getLanguages().findById(languageId)
                 .map(language -> {
                     LanguageDto languageDto = new LanguageDto();
@@ -303,6 +327,7 @@ public class BookService implements IBookService{
 
     @Override
     public List<LanguageDto> getAllLanguagesFromBook(Long bookId) {
+        log.info("Getting all languages from book: " + bookId);
         return db.getBooks().findById(bookId).orElseThrow(() -> new NotFoundException("Book not found"))
                 .getLanguages().stream().map(language -> {
                     LanguageDto languageDto = new LanguageDto();
@@ -314,6 +339,7 @@ public class BookService implements IBookService{
 
     @Override
     public void editLanguage(LanguageDto languageDto, Long bookId) {
+        log.info("Editing language: " + languageDto.getId());
         if (!validator.validateStringDto(languageDto.getName())){
             throw new IllegalArgumentException("Invalid language");
         }
@@ -331,6 +357,7 @@ public class BookService implements IBookService{
 
     @Override
     public void deleteLanguage(Long bookId, Long languageId) {
+        log.info("Deleting language: " + languageId);
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             Language language = book.getLanguages().stream()
                     .filter(l -> l.getId()==languageId).findFirst().orElseThrow(() -> new NotFoundException("Language not found"));
@@ -347,6 +374,7 @@ public class BookService implements IBookService{
 
     @Override
     public void addLanguage(LanguageDto languageDto, Long bookId) {
+        log.info("Adding language to book: " + bookId);
         if (!validator.validateStringDto(languageDto.getName())){
             throw new IllegalArgumentException("Invalid language");
         }
@@ -369,6 +397,7 @@ public class BookService implements IBookService{
 
     @Override
     public Long getBookshelvesId(String name, Long bookId) {
+        log.info("Getting bookshelves id");
         return db.getBooks().findById(bookId)
                 .map(book -> Objects.requireNonNull(book.getBookshelves().stream()
                         .filter(bookshelves -> bookshelves.getName().equals(name))
@@ -378,6 +407,7 @@ public class BookService implements IBookService{
 
     @Override
     public List<BookshelvesDto> getAllBookshelves() {
+        log.info("Getting all bookshelves");
         return db.getBookshelves().findAll().stream().map(bookshelves -> {
             BookshelvesDto bookshelvesDto = new BookshelvesDto();
             bookshelvesDto.setId(bookshelves.getId());
@@ -388,6 +418,7 @@ public class BookService implements IBookService{
 
     @Override
     public BookshelvesDto getBookshelves(Long bookshelvesId) {
+        log.info("Getting bookshelves: " + bookshelvesId);
         return db.getBookshelves().findById(bookshelvesId)
                 .map(bookshelves -> {
                     BookshelvesDto bookshelvesDto = new BookshelvesDto();
@@ -399,6 +430,7 @@ public class BookService implements IBookService{
 
     @Override
     public List<BookshelvesDto> getAllBookshelvesFromBook(Long bookId) {
+        log.info("Getting all bookshelves from book: " + bookId);
         return db.getBooks().findById(bookId).orElseThrow(() -> new NotFoundException("Book not found"))
                 .getBookshelves().stream().map(bookshelves -> {
                     BookshelvesDto bookshelvesDto = new BookshelvesDto();
@@ -410,6 +442,7 @@ public class BookService implements IBookService{
 
     @Override
     public void editBookshelves(BookshelvesDto bookshelvesDto, Long bookId) {
+        log.info("Editing bookshelves: " + bookshelvesDto.getId());
         if (!validator.validateStringDto(bookshelvesDto.getName())){
             throw new IllegalArgumentException("Invalid bookshelves");
         }
@@ -427,6 +460,7 @@ public class BookService implements IBookService{
 
     @Override
     public void deleteBookshelves(Long bookId, Long bookshelvesId) {
+        log.info("Deleting bookshelves: " + bookshelvesId);
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             Bookshelves bookshelves = book.getBookshelves().stream()
                     .filter(b -> b.getId()==bookshelvesId).findFirst().orElseThrow(() -> new NotFoundException("Bookshelves not found"));
@@ -443,6 +477,7 @@ public class BookService implements IBookService{
 
     @Override
     public void addBookshelves(BookshelvesDto bookshelvesDto, Long bookId) {
+        log.info("Adding bookshelves to book: " + bookId);
         if (!validator.validateStringDto(bookshelvesDto.getName())){
             throw new IllegalArgumentException("Invalid bookshelves");
         }
@@ -495,6 +530,7 @@ public class BookService implements IBookService{
     @Transactional
     @Override
     public void deleteBook(Long bookId) {
+        log.info("Deleting book: " + bookId);
             if (!db.getBooks().existsById(bookId)) {
                 throw new NotFoundException("Book not found");
             }
@@ -521,6 +557,7 @@ public class BookService implements IBookService{
 
     @Override
     public void addBook(NewBookDto newBookDto) {
+        log.info("Adding book");
         if (!validator.validateNewBook(newBookDto)){
             throw new IllegalArgumentException("Invalid book");
         }

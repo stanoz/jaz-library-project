@@ -22,13 +22,8 @@ public class Validator implements IValidate{
         if (authorDto.getName().isBlank()){
             return false;
         }
-        if (authorDto.getYearOfBirth() < 0 && authorDto.getYearOfDeath() <= 0){
-            return authorDto.getYearOfDeath() > authorDto.getYearOfBirth();
-        }
-        if (authorDto.getYearOfBirth() >= 0 && authorDto.getYearOfDeath() > 0){
-            return authorDto.getYearOfDeath() < authorDto.getYearOfBirth();
-        }
-        return true;
+        return authorDto.getYearOfDeath() > authorDto.getYearOfBirth();
+
     }
 
     @Override
