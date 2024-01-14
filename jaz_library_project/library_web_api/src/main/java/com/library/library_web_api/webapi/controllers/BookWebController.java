@@ -2,7 +2,6 @@ package com.library.library_web_api.webapi.controllers;
 
 import com.library.library_client.contract.AuthorDto;
 import com.library.library_client.contract.BookDto;
-import com.library.library_data.model.Author;
 import com.library.library_web_api.webapi.contract.BookshelvesDto;
 import com.library.library_web_api.webapi.contract.LanguageDto;
 import com.library.library_web_api.webapi.contract.NewBookDto;
@@ -19,7 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/web/api/books")
 @RequiredArgsConstructor
-public class BookController {
+public class BookWebController {
     private final IBookService bookService;
     private final SafeInvoking invoker;
 
