@@ -11,18 +11,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class BookExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<String> handleNotFoundEx(NotFoundException ex, RedirectAttributes redirectAttributes){
-        String errorMessage = ex.getMessage()
-                .replaceAll("^\\s*\\d{3}\\s*\\w+\\s*\\w+:\\s*", "");
+        String errorMessage = createProperErrorMessage(ex.getMessage());
         redirectAttributes.addAttribute("Error", "Error: \n" +
                 errorMessage);
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
     @ExceptionHandler
     protected ResponseEntity<String> handleIllegalArgEx(IllegalArgumentException ex, RedirectAttributes redirectAttributes){
-        String errorMessage = ex.getMessage()
-                .replaceAll("^\\s*\\d{3}\\s*\\w+\\s*\\w+:\\s*", "");
+        String errorMessage = createProperErrorMessage(ex.getMessage());
         redirectAttributes.addAttribute("Error", "Error: \n" +
                 errorMessage);
         return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    private String createProperErrorMessage(String message){
+        return message.replaceAll("^\\s*\\d{3}\\s*\\w+\\s*\\w+:\\s*", "");
     }
 }
