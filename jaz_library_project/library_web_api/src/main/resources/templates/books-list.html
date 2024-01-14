@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+<div th:if="${param.Error}">
+    <div><pre th:text="${param.Error}" class="error-message"></pre></div>
+</div>
 <table>
 <thead>
 <tr>

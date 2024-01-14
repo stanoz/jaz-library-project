@@ -7,6 +7,7 @@ import com.library.library_data.repositories.ICatalogData;
 import com.library.library_updater.books.mappers.IMapper;
 import com.library.library_web_api.webapi.contract.*;
 import com.library.library_web_api.webapi.exceptions.NotFoundException;
+import com.library.library_web_api.webapi.validators.IValidate;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -24,6 +25,7 @@ public class BookService implements IBookService{
 
     private final ICatalogData db;
     private final IMapper mapper;
+    private final IValidate validator;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -41,6 +43,9 @@ public class BookService implements IBookService{
 
     @Override
     public void editBook(BookDto bookDto, Long id) {
+        if (!validator.validateBook(bookDto)){
+            throw new IllegalArgumentException("Invalid book");
+        }
         db.getBooks().findById(id).ifPresentOrElse(book -> {
             book.setTitle(bookDto.getTitle());
             book.setDownloadCount(bookDto.getDownloadCount());
@@ -106,6 +111,9 @@ public class BookService implements IBookService{
 
     @Override
     public void editAuthor(AuthorDto authorDto, Long bookId, Long authorId) {
+        if (!validator.validateAuthor(authorDto)){
+            throw new IllegalArgumentException("Invalid author");
+        }
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             Author author = book.getAuthors().stream()
                     .filter(a -> a.getId()==authorId).findFirst()
@@ -147,6 +155,9 @@ public class BookService implements IBookService{
 
     @Override
     public void addAuthor(AuthorDto authorDto, Long bookId) {
+        if (!validator.validateAuthor(authorDto)){
+            throw new IllegalArgumentException("Invalid author");
+        }
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             if (db.getAuthors().existsByName(authorDto.getName())) {
                 Author author = db.getAuthors().findByName(authorDto.getName());
@@ -207,6 +218,9 @@ public class BookService implements IBookService{
 
     @Override
     public void editSubject(SubjectDto subjectDto, Long bookId) {
+        if (!validator.validateStringDto(subjectDto.getName())){
+            throw new IllegalArgumentException("Invalid subject");
+        }
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             Subject subject = book.getSubjects().stream()
                     .filter(s -> s.getId()==subjectDto.getId()).findFirst()
@@ -237,6 +251,9 @@ public class BookService implements IBookService{
 
     @Override
     public void addSubject(SubjectDto subjectDto, Long bookId) {
+        if (!validator.validateStringDto(subjectDto.getName())){
+            throw new IllegalArgumentException("Invalid subject");
+        }
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             if (db.getSubjects().existsByName(subjectDto.getName())) {
                 Subject subject = db.getSubjects().findByName(subjectDto.getName());
@@ -297,6 +314,9 @@ public class BookService implements IBookService{
 
     @Override
     public void editLanguage(LanguageDto languageDto, Long bookId) {
+        if (!validator.validateStringDto(languageDto.getName())){
+            throw new IllegalArgumentException("Invalid language");
+        }
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             Language language = book.getLanguages().stream()
                     .filter(l -> l.getId()==languageDto.getId()).findFirst()
@@ -327,6 +347,9 @@ public class BookService implements IBookService{
 
     @Override
     public void addLanguage(LanguageDto languageDto, Long bookId) {
+        if (!validator.validateStringDto(languageDto.getName())){
+            throw new IllegalArgumentException("Invalid language");
+        }
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             if (db.getLanguages().existsByName(languageDto.getName())) {
                 Language language = db.getLanguages().findByName(languageDto.getName());
@@ -387,6 +410,9 @@ public class BookService implements IBookService{
 
     @Override
     public void editBookshelves(BookshelvesDto bookshelvesDto, Long bookId) {
+        if (!validator.validateStringDto(bookshelvesDto.getName())){
+            throw new IllegalArgumentException("Invalid bookshelves");
+        }
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             Bookshelves bookshelves = book.getBookshelves().stream()
                     .filter(b -> b.getId()==bookshelvesDto.getId()).findFirst()
@@ -417,6 +443,9 @@ public class BookService implements IBookService{
 
     @Override
     public void addBookshelves(BookshelvesDto bookshelvesDto, Long bookId) {
+        if (!validator.validateStringDto(bookshelvesDto.getName())){
+            throw new IllegalArgumentException("Invalid bookshelves");
+        }
         db.getBooks().findById(bookId).ifPresentOrElse(book -> {
             if (db.getBookshelves().existsByName(bookshelvesDto.getName())) {
                 Bookshelves bookshelves = db.getBookshelves().findByName(bookshelvesDto.getName());
@@ -492,6 +521,9 @@ public class BookService implements IBookService{
 
     @Override
     public void addBook(NewBookDto newBookDto) {
+        if (!validator.validateNewBook(newBookDto)){
+            throw new IllegalArgumentException("Invalid book");
+        }
         Book book = new Book();
         book.setTitle(newBookDto.getTitle());
         book.setDownloadCount(newBookDto.getDownloadCount());
