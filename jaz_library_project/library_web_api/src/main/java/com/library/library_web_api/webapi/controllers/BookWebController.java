@@ -20,7 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookWebController {
     private final IBookService bookService;
-    private final SafeInvoking invoker;
 
     @GetMapping("/show-all")
     public String getAllBooks(Model model){
@@ -42,7 +41,7 @@ public class BookWebController {
     }
     @PostMapping("/edit-book/{id}")
     public String editBook(BookDto book, Model model,@PathVariable("id") Long id){
-        invoker.SafeInvoke(() -> bookService.editBook(book, id));
+        bookService.editBook(book, id);
         return "redirect:/web/api/books/show-all";
     }
     @GetMapping("/edit-author/{name}/{id}")
@@ -57,7 +56,7 @@ public class BookWebController {
     @PostMapping("/edit-author/{name}/{id}/{authorId}")
     public String editAuthor(AuthorDto authorDto, Model model,@PathVariable("name") String name,
                              @PathVariable("id") Long bookId, @PathVariable("authorId") Long authorId){
-        invoker.SafeInvoke(() -> bookService.editAuthor(authorDto, bookId, authorId));
+        bookService.editAuthor(authorDto, bookId, authorId);
         return "redirect:/web/api/books/book-details/" + bookId;
     }
     @GetMapping("/delete-author/{name}/{id}")
@@ -72,7 +71,7 @@ public class BookWebController {
     @PostMapping("/delete-author/{name}/{id}/{authorId}")
     public String deleteAuthor(AuthorDto authorDto, Model model,@PathVariable("name") String name,
                              @PathVariable("id") Long bookId, @PathVariable("authorId") Long authorId){
-        invoker.SafeInvoke(() -> bookService.deleteAuthor(bookId, authorId));
+        bookService.deleteAuthor(bookId, authorId);
         return "redirect:/web/api/books/book-details/" + bookId;
     }
     @GetMapping("/add-author/{id}")
@@ -84,7 +83,7 @@ public class BookWebController {
     }
     @PostMapping("/add-author/{bookId}")
     public String addAuthor(AuthorDto authorDto, Model model, @PathVariable("bookId") Long bookId){
-        invoker.SafeInvoke(() -> bookService.addAuthor(authorDto, bookId));
+        bookService.addAuthor(authorDto, bookId);
         return "redirect:/web/api/books/book-details/" + bookId;
     }
     @GetMapping("/edit-subject/{name}/{id}")
@@ -99,7 +98,7 @@ public class BookWebController {
     public String editSubject(SubjectDto subjectDto,Model model,@PathVariable("bookId") Long bookId,
                               @PathVariable("subjectId") Long subjectId){
         subjectDto.setId(subjectId);
-        invoker.SafeInvoke(() -> bookService.editSubject(subjectDto, bookId));
+        bookService.editSubject(subjectDto, bookId);
         return "redirect:/web/api/books/book-details/" + bookId;
     }
     @GetMapping("/delete-subject/{name}/{id}")
@@ -112,7 +111,7 @@ public class BookWebController {
     }
     @PostMapping("/delete-subject/{bookId}{subjectId}")
     public String deleteSubject(Model model,@PathVariable("bookId") Long bookId, @PathVariable("subjectId") Long subjectId){
-        invoker.SafeInvoke(() -> bookService.deleteSubject(bookId, subjectId));
+        bookService.deleteSubject(bookId, subjectId);
         return "redirect:/web/api/books/book-details/" + bookId;
     }
     @GetMapping("/add-subject/{id}")
@@ -124,7 +123,7 @@ public class BookWebController {
     }
     @PostMapping("/add-subject/{bookId}")
     public String addSubject(SubjectDto subjectDto, Model model, @PathVariable("bookId") Long bookId){
-        invoker.SafeInvoke(() -> bookService.addSubject(subjectDto, bookId));
+        bookService.addSubject(subjectDto, bookId);
         return "redirect:/web/api/books/book-details/" + bookId;
     }
     @GetMapping("/edit-language/{name}/{id}")
@@ -139,7 +138,7 @@ public class BookWebController {
     public String editLanguage(LanguageDto languageDto,Model model,@PathVariable("bookId") Long bookId,
                               @PathVariable("languageId") Long languageId){
         languageDto.setId(languageId);
-        invoker.SafeInvoke(() -> bookService.editLanguage(languageDto, bookId));
+        bookService.editLanguage(languageDto, bookId);
         return "redirect:/web/api/books/book-details/" + bookId;
     }
     @GetMapping("/delete-language/{name}/{id}")
@@ -152,7 +151,7 @@ public class BookWebController {
     }
     @PostMapping("/delete-language/{bookId}/{languageId}")
     public String deleteLanguage(Model model,@PathVariable("bookId") Long bookId, @PathVariable("languageId") Long languageId){
-        invoker.SafeInvoke(() -> bookService.deleteLanguage(bookId, languageId));
+        bookService.deleteLanguage(bookId, languageId);
         return "redirect:/web/api/books/book-details/" + bookId;
     }
     @GetMapping("/add-language/{id}")
@@ -164,7 +163,7 @@ public class BookWebController {
     }
     @PostMapping("/add-language/{bookId}")
     public String addLanguage(LanguageDto languageDto, Model model, @PathVariable("bookId") Long bookId){
-        invoker.SafeInvoke(() -> bookService.addLanguage(languageDto, bookId));
+        bookService.addLanguage(languageDto, bookId);
         return "redirect:/web/api/books/book-details/" + bookId;
     }
     @GetMapping("/edit-bookshelves/{name}/{id}")
@@ -179,7 +178,7 @@ public class BookWebController {
     public String editBookshelves(BookshelvesDto bookshelvesDto,Model model,@PathVariable("bookId") Long bookId,
                               @PathVariable("bookshelvesId") Long bookshelvesId){
         bookshelvesDto.setId(bookshelvesId);
-        invoker.SafeInvoke(() -> bookService.editBookshelves(bookshelvesDto, bookId));
+       bookService.editBookshelves(bookshelvesDto, bookId);
         return "redirect:/web/api/books/book-details/" + bookId;
     }
     @GetMapping("/delete-bookshelves/{name}/{id}")
@@ -192,7 +191,7 @@ public class BookWebController {
     }
     @PostMapping("/delete-bookshelves/{bookId}/{bookshelvesId}")
     public String deleteBookshelves(Model model,@PathVariable("bookId") Long bookId, @PathVariable("bookshelvesId") Long bookshelvesId){
-        invoker.SafeInvoke(() -> bookService.deleteBookshelves(bookId, bookshelvesId));
+        bookService.deleteBookshelves(bookId, bookshelvesId);
         return "redirect:/web/api/books/book-details/" + bookId;
     }
     @GetMapping("/add-bookshelves/{id}")
@@ -204,7 +203,7 @@ public class BookWebController {
     }
     @PostMapping("/add-bookshelves/{bookId}")
     public String addBookshelves(BookshelvesDto bookshelvesDto, Model model, @PathVariable("bookId") Long bookId){
-        invoker.SafeInvoke(() -> bookService.addBookshelves(bookshelvesDto, bookId));
+        bookService.addBookshelves(bookshelvesDto, bookId);
         return "redirect:/web/api/books/book-details/" + bookId;
     }
     @GetMapping("/delete-book/{id}")
@@ -215,7 +214,7 @@ public class BookWebController {
     }
     @PostMapping("/delete-book/{id}")
     public String deleteBook(BookDto book, Model model,@PathVariable("id") Long id){
-        invoker.SafeInvoke(() -> bookService.deleteBook(id));
+        bookService.deleteBook(id);
         return "redirect:/web/api/books/show-all";
     }
     @GetMapping("/add-book")
@@ -226,7 +225,7 @@ public class BookWebController {
     }
     @PostMapping("/add-book")
     public String addBook(NewBookDto newBookDto, Model model){
-        invoker.SafeInvoke(() -> bookService.addBook(newBookDto));
+       bookService.addBook(newBookDto);
         return "redirect:/web/api/books/show-all";
     }
 }
