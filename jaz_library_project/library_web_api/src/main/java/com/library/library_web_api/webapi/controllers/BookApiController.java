@@ -2,10 +2,7 @@ package com.library.library_web_api.webapi.controllers;
 
 import com.library.library_client.contract.AuthorDto;
 import com.library.library_client.contract.BookDto;
-import com.library.library_web_api.webapi.contract.AuthorDbDto;
-import com.library.library_web_api.webapi.contract.LanguageDto;
-import com.library.library_web_api.webapi.contract.NewBookDto;
-import com.library.library_web_api.webapi.contract.SubjectDto;
+import com.library.library_web_api.webapi.contract.*;
 import com.library.library_web_api.webapi.services.IBookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -55,10 +52,10 @@ public class BookApiController {
     public ResponseEntity<List<AuthorDbDto>> getAllAuthorsFromBook(@PathVariable Long bookId){
         return ResponseEntity.ok(bookService.getAllAuthorsFromBook(bookId));
     }
-    @PutMapping("/edit-author/{name}/{id}")
-    public ResponseEntity<Void> editAuthor(@PathVariable String name, @PathVariable("id") Long bookId,
+    @PutMapping("/edit-author/{authorId}/{bookId}")
+    public ResponseEntity<Void> editAuthor(@PathVariable("authorId") Long authorId, @PathVariable("bookId") Long bookId,
                                            @RequestBody AuthorDto authorDto){
-        bookService.editAuthor(authorDto, bookId, bookService.getAuthorId(name, bookId));
+        bookService.editAuthor(authorDto, bookId, authorId);
         return ResponseEntity.ok().build();
     }
     @PostMapping("/add-author/{bookId}")
@@ -128,31 +125,31 @@ public class BookApiController {
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/bookshelves")
-    public ResponseEntity<List<SubjectDto>> getAllBookshelves(){
-        return ResponseEntity.ok(bookService.getAllSubjects());
+    public ResponseEntity<List<BookshelvesDto>> getAllBookshelves(){
+        return ResponseEntity.ok(bookService.getAllBookshelves());
     }
     @GetMapping("/bookshelves/{bookshelvesId}")
-    public ResponseEntity<SubjectDto> getBookshelves(@PathVariable Long bookshelvesId){
-        return ResponseEntity.ok(bookService.getSubject(bookshelvesId));
+    public ResponseEntity<BookshelvesDto> getBookshelves(@PathVariable Long bookshelvesId){
+        return ResponseEntity.ok(bookService.getBookshelves(bookshelvesId));
     }
     @GetMapping("/bookshelves-from-book/{bookId}")
-    public ResponseEntity<List<SubjectDto>> getAllBookshelvesFromBook(@PathVariable Long bookId){
-        return ResponseEntity.ok(bookService.getAllSubjectsFromBook(bookId));
+    public ResponseEntity<List<BookshelvesDto>> getAllBookshelvesFromBook(@PathVariable Long bookId){
+        return ResponseEntity.ok(bookService.getAllBookshelvesFromBook(bookId));
     }
     @PutMapping("/edit-bookshelves/{bookId}")
     public ResponseEntity<Void> editBookshelves(@PathVariable("bookId") Long bookId,
-                                                @RequestBody SubjectDto subjectDto){
-        bookService.editSubject(subjectDto, bookId);
+                                                @RequestBody BookshelvesDto bookshelvesDto){
+        bookService.editBookshelves(bookshelvesDto, bookId);
         return ResponseEntity.ok().build();
     }
     @PostMapping("/add-bookshelves/{bookId}")
-    public ResponseEntity<Void> addBookshelves(@PathVariable("bookId") Long bookId, @RequestBody SubjectDto subjectDto){
-        bookService.addSubject(subjectDto, bookId);
+    public ResponseEntity<Void> addBookshelves(@PathVariable("bookId") Long bookId, @RequestBody BookshelvesDto bookshelvesDto){
+        bookService.addBookshelves(bookshelvesDto, bookId);
         return ResponseEntity.ok().build();
     }
     @DeleteMapping("/delete-bookshelves/{bookId}/{bookshelvesId}")
     public ResponseEntity<Void> deleteBookshelves(@PathVariable("bookId") Long bookId, @PathVariable("bookshelvesId") Long bookshelvesId){
-        bookService.deleteSubject(bookId, bookshelvesId);
+        bookService.deleteBookshelves(bookId, bookshelvesId);
         return ResponseEntity.noContent().build();
     }
 

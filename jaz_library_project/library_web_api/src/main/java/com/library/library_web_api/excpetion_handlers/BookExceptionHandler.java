@@ -1,7 +1,6 @@
 package com.library.library_web_api.excpetion_handlers;
 
 import com.library.library_web_api.webapi.exceptions.NotFoundException;
-import com.library.library_web_api.webapi.services.BookService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

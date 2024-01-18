@@ -1,14 +1,10 @@
 package com.library.library_data;
 
-import com.library.library_data.model.Author;
-import com.library.library_data.model.Book;
 import com.library.library_data.repositories.ICatalogData;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
-import java.util.Optional;
 
 @EnableJpaRepositories
 @SpringBootApplication

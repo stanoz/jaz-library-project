@@ -2,7 +2,6 @@ package com.library.library_web_api.webapi.services;
 
 import com.library.library_client.contract.AuthorDto;
 import com.library.library_client.contract.BookDto;
-import com.library.library_data.model.Book;
 import com.library.library_web_api.webapi.contract.*;
 
 import java.util.List;

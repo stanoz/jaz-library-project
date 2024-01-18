@@ -55,18 +55,6 @@ public class BooksUpdater implements IUpdateBooks{
             bookEntity.getAuthors().add(authorEntity);
         });
 
-//        bookDto.getBookImage().forEach(bookImageDto -> {
-//            BookImage bookImageEntity = dbCatalog.getBookImages().findByImageUrl(bookImageDto.getImageUrl());
-//            if (bookImageEntity == null) {
-//                bookImageEntity = mapper.bookImage().mapToEntity(bookImageDto);
-//                bookImageEntity.setBook(bookEntity);
-//                dbCatalog.getBookImages().save(bookImageEntity);
-//            }else {
-//                bookImageEntity.setBook(bookEntity);
-//            }
-//            bookEntity.getImages().add(bookImageEntity);
-//        });
-
         bookDto.getLanguages().forEach(language -> {
             Language languageEntity = dbCatalog.getLanguages().findByName(language);
             if (languageEntity != null) {

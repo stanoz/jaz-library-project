@@ -17,7 +17,7 @@ public class UpdaterController {
     }
 
     @GetMapping("start")
-    public ResponseEntity start(
+    public ResponseEntity<Void> start(
             @RequestParam int numberOfPages) {
         booksUpdater.updateByResultPages(numberOfPages);
 
@@ -25,7 +25,7 @@ public class UpdaterController {
     }
 
     @GetMapping("pages")
-    public ResponseEntity getPages(
+    public ResponseEntity<Void> getPages(
             @RequestParam int pageFrom, @RequestParam int pageTo) {
         booksUpdater.updateByPagesRange(pageFrom, pageTo);
         return ResponseEntity.ok().build();

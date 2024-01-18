@@ -498,35 +498,6 @@ public class BookService implements IBookService{
         });
     }
 
-//    @Override
-//    public void deleteBook(Long id) {
-//        boolean exists = db.getBooks().existsById(id);
-//        if (exists) {
-//            db.getBooks().findById(id).ifPresent(book -> {
-//                book.getAuthors().forEach(author -> {
-//                    author.getBooks().remove(book);
-//                    db.getAuthors().save(author);
-//                });
-//                book.getSubjects().forEach(subject -> {
-//                    subject.getBooks().remove(book);
-//                    db.getSubjects().save(subject);
-//                });
-//                book.getLanguages().forEach(language -> {
-//                    language.getBooks().remove(book);
-//                    db.getLanguages().save(language);
-//                });
-//                book.getBookshelves().forEach(bookshelves -> {
-//                    bookshelves.getBooks().remove(book);
-//                    db.getBookshelves().save(bookshelves);
-//                });
-//                db.getBooks().save(book);
-//            });
-//            db.getBooks().deleteById(id);
-////            db.getBooks().deleteBookAndRelatedEntities(id);
-//        }else {
-//            throw new NotFoundException("Book not found");
-//        }
-//    }
     @Transactional
     @Override
     public void deleteBook(Long bookId) {
