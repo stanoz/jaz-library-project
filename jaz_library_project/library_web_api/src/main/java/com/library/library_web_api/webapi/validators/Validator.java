@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 public class Validator implements IValidate{
     @Override
     public boolean validateBook(BookDto bookDto) {
-        return (!bookDto.getTitle().isBlank() && bookDto.getDownloadCount() < 0);
+        return (!(bookDto.getTitle().isBlank()) && bookDto.getDownloadCount() > 0);
     }
 
     @Override
     public boolean validateNewBook(NewBookDto newBookDto) {
-        return (!newBookDto.getTitle().isBlank() && newBookDto.getDownloadCount() < 0);
+        return (!(newBookDto.getTitle().isBlank()) && newBookDto.getDownloadCount() > 0);
     }
 
     @Override
@@ -28,6 +28,6 @@ public class Validator implements IValidate{
 
     @Override
     public boolean validateStringDto(String dtoNameField) {
-        return !dtoNameField.isBlank();
+        return !(dtoNameField.isBlank());
     }
 }
